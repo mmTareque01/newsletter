@@ -4,16 +4,21 @@ import dotenv from "dotenv";
 import subscriber from "./services/subscriber";
 import service from "./services";
 import { errorHandler } from "./middleware/errorHandler";
+import { env } from "process";
+import path from "path";
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
-const PORT = 5001;
+const PORT = 5001
 // const expressServer = http.createServer(app);
 
 // Middleware to parse JSON
 app.use(express.json());
+// Serve widget.js statically from 'public' directory
+// app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // CORS setup (for allowing cross-origin requests)
 app.use(cors());

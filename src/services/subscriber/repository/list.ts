@@ -1,15 +1,14 @@
-import { paginatePrisma, prisma } from "../../../connection";
+import { prisma } from "../../../connection";
 
 export const getAllSubscribersRepo = async (
   pageNo: number,
   pageSize: number,
   query?: string
 ) => {
-
-  return await paginatePrisma.subscriber.paginate({
+  return await prisma.subscriber.paginate({
     pageNo: pageNo,
     pageSize: pageSize,
-    where: { status: 'ACTIVE' },
+    where: { status: "ACTIVE" },
     // orderBy: { createdAt: 'desc' },
   });
 };

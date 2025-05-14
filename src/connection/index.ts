@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { paginate } from "./query/paginate.query";
-export const prisma = new PrismaClient();
+ let prismaBase = new PrismaClient();
 // export const paginatePrisma = new PrismaClient().$extends(paginate);
-export const paginatePrisma = paginate(prisma);
+export const  prisma = paginate(prismaBase);

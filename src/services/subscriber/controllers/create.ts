@@ -3,16 +3,27 @@ import { prisma } from "../../../connection";
 import { response } from "../../../response-config/response";
 import { createSubscriberRepo } from "../repository/create";
 
-export const createSubscriber = async (req: Request, res: Response, next: NextFunction) => {
+export const createSubscriber = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { email, name, phone } = req.body;
 
     // Create new subscriber
     const newSubscriber = await createSubscriberRepo({ email, name, phone });
 
-    // Return success response
-    response.ER201(res, newSubscriber, "Subscriber created successfully");
+    response.ER201(
+      res,
+      {
+        email: newSubscriber.email,
+        name: newSubscriber.name,
+        phone: newSubscriber.phone,
+      },
+      "Subscriber created successfully"
+    );
   } catch (error) {
-    next(error)
+    next(error);
   }
 };

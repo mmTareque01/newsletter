@@ -1,13 +1,24 @@
 // middlewares/authMiddleware.ts
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
+import { authenticateUser } from "../others/JWT";
+import { CustomError } from "../others/errors";
 
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization;
+export const authenticate = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  // const token = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  const authHeader = req.headers["authorization"];
+  const token = authHeader?.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : null;
+
+  const validatedUser = authenticateUser(token);
+
+  if (!validatedUser) {
+    next(new CustomError("ER401", "Unauthorized user"));
   }
-
-  // pretend to validate token...
   next();
 };
