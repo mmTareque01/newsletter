@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../../../connection";
 import { response } from "../../../response-config/response";
-import { createSubscriberRepo } from "../repository/create";
+import { createSubscriberRepo } from "../repository/create.subscriber.repository";
 
 export const createSubscriber = async (
   req: Request,

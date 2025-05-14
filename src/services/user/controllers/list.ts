@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { response } from "../../../response-config/response";
-import { getAllSubscribersRepo } from "../repository/list.subscriber.repository";
+import { getAllSubscribersRepo } from "../repository/list";
 
 export const getAllSubscribers = async (
   req: Request,
