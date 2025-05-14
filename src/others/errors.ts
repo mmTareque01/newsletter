@@ -16,7 +16,7 @@ export class CustomError extends Error {
       statusCode: this.statusCode,
       message: this.message,
       details: this.details,
-      stack: process.env.NODE_ENV === 'development' ? this.stack : undefined
+      stack: process.env.NODE_ENV === "development" ? this.stack : undefined,
     };
   }
 }
