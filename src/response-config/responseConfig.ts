@@ -152,9 +152,9 @@ export class ResponseConfig {
 
   public ER401(
     res: Response,
-    data: any,
     message: string,
-    error: any
+    error: any,
+    data: any
   ): Response {
     return this.createResponse(res, {
       statusCode: 401,

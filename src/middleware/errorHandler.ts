@@ -26,7 +26,7 @@ export function errorHandler(
   const message = error.message || "Internal Server Error";
 
   if (error instanceof CustomError && error.statusCode in response) {
-    response[ "ER400"](res, error.details, error.message);
+    response[error.statusCode](res, error.details, error.message, "data");
   }
 
   response.ER500(res, message);

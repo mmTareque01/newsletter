@@ -1,7 +1,9 @@
 // src/errors/custom-error.ts
+type StatusCode = 'ER400' | 'ER401' | 'ER404' | 'ER409' | 'ER500'; // add more as needed
+
 export class CustomError extends Error {
   constructor(
-    public readonly statusCode: string,
+    public readonly statusCode: StatusCode,
     message: string,
     public readonly details?: any
   ) {
