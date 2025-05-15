@@ -1,4 +1,4 @@
-export * from "./list"
+export * from "./list.user.controller"
 export * from "./create.user.controller"
 export * from "./update"
 export * from "./delete"

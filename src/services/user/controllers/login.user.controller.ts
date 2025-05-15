@@ -2,25 +2,25 @@ import { NextFunction, Request, Response } from "express";
 import { response } from "../../../response-config/response";
 import { createUserRepo } from "../repository/create.user.repository";
 import { hashPassword } from "../../../others/hash";
+import { loginRepo } from "../repository/login.user.repository";
 
-export const register = async (
+export const login = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { email, firstName, lastName, password } = req.body;
+    const { email, password } = req.body;
 
     // Create new subscriber
-    const hashed: string = await hashPassword(password);
-    const newUser = await createUserRepo({
+    const authUser = await loginRepo({
       email,
-      firstName,
-      lastName,
-      password: hashed,
+      password,
     });
 
-    response.ER201(res, newUser, "User Registered successfully");
+    
+
+    response.ER201(res, authUser, "User logged in successfully");
   } catch (error) {
     next(error);
   }

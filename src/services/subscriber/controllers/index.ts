@@ -1,5 +1,5 @@
-export * from "./list"
-export * from "./create"
+export * from "./list.subscriber.controller"
+export * from "./create.subscriber.controller"
 export * from "./update"
 export * from "./delete"
 // export * from "./get"

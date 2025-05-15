@@ -8,8 +8,6 @@ export const authenticate = (
   res: Response,
   next: NextFunction
 ) => {
-  // const token = req.headers.authorization;
-
   const authHeader = req.headers["authorization"];
   const token = authHeader?.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
@@ -19,6 +17,9 @@ export const authenticate = (
 
   if (!validatedUser) {
     next(new CustomError("ER401", "Unauthorized user"));
+  } else {
+    // req.user = validatedUser;
   }
+
   next();
 };
