@@ -17,6 +17,6 @@ export const createUserRepo = async (data: {
   }
   return await prisma.user.create({
     data,
-    select: { email: true, firstName: true, lastName: true },
+    select: { email: true, firstName: true, lastName: true, id: true },
   });
 };

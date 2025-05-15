@@ -6,6 +6,7 @@ import service from "./services";
 import { errorHandler } from "./middleware/errorHandler";
 import { env } from "process";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 // Load environment variables
 dotenv.config();
@@ -16,6 +17,7 @@ const PORT = process.env.PORT
 
 // Middleware to parse JSON
 app.use(express.json());
+app.use(cookieParser());
 // Serve widget.js statically from 'public' directory
 // app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, '..', 'public')));

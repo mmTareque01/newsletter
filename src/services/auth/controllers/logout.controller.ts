@@ -8,29 +8,20 @@ import {
   generateRefreshToken,
 } from "../../../others/tokenService";
 
-export const login = async (
+export const logout = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body;
-
-    const authUser = await loginRepo({
-      email,
-      password,
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/api/auth/refresh", // should match the path where the cookie was set
     });
 
-    const accessToken = generateAccessToken(authUser);
-    const refreshToken = generateRefreshToken(authUser);
-
-    // refreshTokens.push(refreshToken);
-
-    response.ER201(
-      res,
-      { accessToken, refreshToken },
-      "User logged in successfully"
-    );
+    response.ER200(res, {}, "User logged out successfully");
   } catch (error) {
     next(error);
   }

@@ -6,24 +6,24 @@ import {
   verifyRefreshToken,
 } from "../../../others/tokenService";
 
-export const updateSubscriber = async (
+export const token = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { token } = req.body;
-    // if (!token || !refreshTokens.includes(token)) {
-    //   return res.sendStatus(403);
+    const token = req.cookies.refreshToken;
+    if (!token) res.status(401).json({ message: "No token" });
     // }
-    const user = verifyRefreshToken(token);
-    const newAccessToken = generateAccessToken({
-      email: "",
-      firstName: "",
-      lastName: "",
-    });
 
-    response.ER200(res, { accessToken: newAccessToken, refreshToken: "" });
+    // const payload = verifyRefreshToken(token) as any;
+
+    const user = verifyRefreshToken(token) ;
+    // if(user){}
+    const newAccessToken = ''//generateAccessToken(user);
+
+    // response.setRefreshToken(res,)
+    response.ER200(res, { accessToken: newAccessToken });
   } catch (error) {
     next(error);
   }
