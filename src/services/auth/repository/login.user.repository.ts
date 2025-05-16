@@ -24,6 +24,7 @@ export const loginRepo = async (data: {
   if (!isMatched) throw invalidError;
 
   return {
+    id: existingUser.id,
     email: existingUser.email,
     firstName: existingUser.firstName || "",
     lastName: existingUser.lastName || "",

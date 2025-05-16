@@ -91,6 +91,15 @@ export class ResponseConfig {
     res.setHeader("Cache-Control", `${type}, max-age=${age}`);
   }
 
+  public setRefreshToken(res: Response, refreshToken: string, age = 7) {
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      maxAge: age * 24 * 60 * 60 * 1000, // 7 days
+    });
+  }
+
   public ER200(
     res: Response,
     data: any = {},

@@ -24,13 +24,11 @@ export const login = async (
     const accessToken = generateAccessToken(authUser);
     const refreshToken = generateRefreshToken(authUser);
 
-    // refreshTokens.push(refreshToken);
+    response.setRefreshToken(res, refreshToken);
 
-    response.ER200(
-      res,
-      { accessToken, refreshToken },
-      "User logged in successfully"
-    );
+    // res['Authorization'] = ''
+
+    response.ER200(res, { accessToken }, "User logged in successfully");
   } catch (error) {
     next(error);
   }
