@@ -154,7 +154,7 @@ export class ResponseConfig {
     res: Response,
     message: string,
     error: any,
-    data: any
+    data?: any 
   ): Response {
     return this.createResponse(res, {
       statusCode: 401,
