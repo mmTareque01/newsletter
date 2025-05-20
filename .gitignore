@@ -1,41 +1,50 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Global ignores for a monorepo with frontend/ and backend/ directories
 
-# dependencies
-/node_modules
-/.pnp
+# === Node.js dependencies ===
+**/node_modules/
+/node_modules/
+
+# === Yarn Plug'n'Play ===
 .pnp.*
-.yarn/*
+/.pnp/
+/.yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
+# === Build outputs ===
+**/build/
+**/dist/
+**/.next/
+**/out/
+**/.turbo/
 
-# next.js
-/.next/
-/out/
+# === Testing ===
+**/coverage/
 
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
+# === Logs ===
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# === Miscellaneous ===
+.DS_Store
+*.pem
 
-# vercel
-.vercel
+# === Environment Variables ===
+.env
+.env.*         # .env.development, .env.local, etc.
 
-# typescript
+# === TypeScript ===
 *.tsbuildinfo
 next-env.d.ts
+
+# === Vercel / Deployment ===
+.vercel/
+
+# === IDE files ===
+.vscode/
+.idea/
+*.swp
