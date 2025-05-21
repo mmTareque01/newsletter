@@ -33,7 +33,7 @@ export default function SignUpForm() {
               <SocialLogin />
               <OrBorder />
 
-              <Form fields={SignUpFormFields} onSubmit={handleSubmit} />
+              <Form fields={SignUpFormFields} onSubmit={handleSubmit} submitText="Sign Up"/>
 
               <GenerateUI
                 UIComponents={SignUptoSignIn}

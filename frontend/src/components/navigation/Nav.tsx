@@ -7,7 +7,7 @@ import React from "react";
 export default function Nav() {
   const pathname = usePathname();
 
-  console.log("Current Pathname:", pathname);
+  // console.log("Current Pathname:", pathname);
 
   if (
     pathname.includes("dashboard") ||
@@ -47,7 +47,7 @@ export default function Nav() {
           <div className="flex items-center justify-end gap-3">
             <Link
               className="hidden items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 sm:inline-flex hover:scale-105"
-              href="/dashboard"
+              href="/signin"
             >
               Login
             </Link>

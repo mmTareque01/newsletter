@@ -4,6 +4,7 @@ import { FieldError, UseFormRegister } from "react-hook-form";
 import Box from "../Box";
 import Label from "../Label";
 import Button from "../Button";
+import { IoEyeOutline } from "react-icons/io5";
 
 
 
@@ -42,6 +43,7 @@ export default function Form({
 }: FormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
 
     // Handle both FormData and react-hook-form cases
     if (!register) {
@@ -138,12 +140,12 @@ export default function Form({
             {field.showPasswordToggle && (
               <button
                 type="button"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-900"
                 onClick={() => {
                   /* Toggle logic */
                 }}
               >
-                👁️
+                <IoEyeOutline/>
               </button>
             )}
           </div>

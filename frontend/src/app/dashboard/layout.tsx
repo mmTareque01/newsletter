@@ -1,13 +1,22 @@
-"use client";
+// "use client";
 
 import { SidebarProvider, useSidebar } from "@/context/SidebarProvider";
 
 import AppSidebar from "@/components/AppSidebar";
 import Backdrop from "@/components/Backdrop";
 import AppHeader from "@/components/AppHeader";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
+    // const token = cookies().get('token')?.value
+    // const token = cookies().get('token')?.value
+
+  // if (!token) {
+  //   redirect('/signin')
+  // }
+
 
   return (
     <div className="min-h-screen xl:flex bg-[#F9FAFB]">
