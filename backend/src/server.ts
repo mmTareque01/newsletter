@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 import subscriber from "./services/subscriber";
 import service from "./services";
 import { errorHandler } from "./middleware/errorHandler";
-import { env } from "process";
 import path from "path";
 import cookieParser from "cookie-parser";
+import mailRoutes from './services/newsletter/routes';
 
 // Load environment variables
 dotenv.config();
@@ -44,6 +44,9 @@ app.get("/api", (req: Request, res: Response) => {
 
 // Routes
 app.use("/api", service);
+
+// get emails
+app.use('/api', mailRoutes);
 
 
 
