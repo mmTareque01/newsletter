@@ -1,6 +1,8 @@
 "use client";
 import Form from "@/components/form/Form";
+import GenerateUI from "@/components/GenerateUI";
 import SocialLogin from "@/components/SocialLogin";
+import { UIComponent } from "@/types/generateUI";
 import Link from "next/link";
 
 const fields = [
@@ -64,6 +66,12 @@ const fields = [
   },
 ];
 
+const components: UIComponent[] = [
+  { component: 'h1', className: 'mb-2 font-semibold text-gray-800 text-title-sm sm:text-title-md', children: 'Sign In' },
+  { component: 'p', className:'text-sm text-gray-500', children: 'Enter your email and password to sign in!' },
+//   { component: MyCustomComponent, title: 'Custom Component' }
+];
+
 export default function SignUpForm() {
   const handleSubmit = (data: Record<string, any>) => {
     // const loginData = {
@@ -79,14 +87,12 @@ export default function SignUpForm() {
         {/* <GoBack/> */}
         <div className="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
           <div>
-            <div className="mb-5 sm:mb-8">
-              <h1 className="mb-2 font-semibold text-gray-800 text-title-sm sm:text-title-md">
-                Sign In
-              </h1>
-              <p className="text-sm text-gray-500 ">
-                Enter your email and password to sign in!
-              </p>
-            </div>
+            
+            <GenerateUI
+              UIComponents={components}
+              wrapperComponent={'div'}
+              wrapperClassName="mb-5 sm:mb-8"
+            />
             <div>
               <SocialLogin />
               <div className="relative py-3 sm:py-5">
