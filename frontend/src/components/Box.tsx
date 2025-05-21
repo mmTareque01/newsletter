@@ -1,17 +1,17 @@
 import { ElementType, ComponentPropsWithoutRef, ReactNode } from 'react'
 
-type TextProps<T extends ElementType> = {
+type BoxProps<T extends ElementType> = {
   as?: T
-  children: ReactNode
+  children?: ReactNode
 } & ComponentPropsWithoutRef<T>
 
-const Text = <T extends ElementType = 'span'>({
+const Box = <T extends ElementType = 'div'>({
   as,
   children,
   ...rest
-}: TextProps<T>) => {
+}: BoxProps<T>) => {
   const Component = as || 'div'
   return <Component {...rest}>{children}</Component>
 }
 
-export default Text
+export default Box

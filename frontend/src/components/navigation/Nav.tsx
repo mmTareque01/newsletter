@@ -4,14 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-
-
 export default function Nav() {
   const pathname = usePathname();
 
   console.log("Current Pathname:", pathname);
 
-  if (pathname.includes("dashboard")) return null;
+  if (
+    pathname.includes("dashboard") ||
+    pathname == "/signin" ||
+    pathname == "/signup"
+  )
+    return null;
   return (
     <header className="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-gray-100 bg-white/80  shadow backdrop-blur-lg md:top-6 md:rounded-3xl lg:max-w-screen-lg">
       <div className="px-4">
@@ -35,7 +38,9 @@ export default function Nav() {
                 transition-all duration-200 hover:bg-gray-100 
                 hover:scale-105 transform origin-center" // Added transform
                 href={item?.path}
-              >             {item?.name}
+              >
+                {" "}
+                {item?.name}
               </Link>
             ))}
           </div>
