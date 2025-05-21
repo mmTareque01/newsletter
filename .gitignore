@@ -2,7 +2,7 @@
 
 # === Node.js dependencies ===
 **/node_modules/
-/node_modules/
+node_modules
 **/.gitignore
 
 # === Yarn Plug'n'Play ===
