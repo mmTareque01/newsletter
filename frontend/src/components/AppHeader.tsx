@@ -15,8 +15,9 @@ import { useAppSettings } from "@/stores/app-settings-store";
 const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
     const { toggleSidebar,  } = useAppSettings();
-  const { isMobileOpen } = useSidebar();
+  // const { isMobileOpen } = useSidebar();
   const inputRef = useRef<HTMLInputElement>(null);
+  const isMobileOpen= false;
 
   const handleToggle = () => {
     // if (window.innerWidth >= 1024) {

@@ -1,22 +1,21 @@
-// "use client";
-
-import { SidebarProvider, useSidebar } from "@/context/SidebarProvider";
-
+import AppHeader from "@/components/AppHeader";
 import AppSidebar from "@/components/AppSidebar";
 import Backdrop from "@/components/Backdrop";
-import AppHeader from "@/components/AppHeader";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-function LayoutContent({ children }: { children: React.ReactNode }) {
-  const { isExpanded, isHovered, isMobileOpen } = useSidebar();
-    // const token = cookies().get('token')?.value
-    // const token = cookies().get('token')?.value
+export default async function DashboardLayout({
+  // Mark as async
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("refreshToken")?.value; // Add await
 
-  // if (!token) {
-  //   redirect('/signin')
-  // }
-
+  if (!token) {
+    redirect("/signin");
+  }
 
   return (
     <div className="min-h-screen xl:flex bg-[#F9FAFB]">
@@ -24,10 +23,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <AppSidebar />
         <Backdrop />
       </div>
+
       <div
-        className={`flex-1 transition-all duration-300 ease-in-out ${
-          isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"
-        } ${isMobileOpen ? "ml-0" : ""}`}
+        className={`flex-1 lg:ml-[290px] transition-all duration-300 ease-in-out`}
       >
         <AppHeader />
         <div className="p-4 mx-auto max-w-screen-2xl md:p-6 bg-[#F9FAFB]">
@@ -35,17 +33,5 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         </div>
       </div>
     </div>
-  );
-}
-
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <SidebarProvider>
-      <LayoutContent>{children}</LayoutContent>
-    </SidebarProvider>
   );
 }
