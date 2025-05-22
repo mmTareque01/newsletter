@@ -1,43 +1,52 @@
-// // hooks/useApi.ts
-// 'use client';
+// hooks/useApi.ts
+"use client";
 
-// import { apiClient } from '@/libs/api/service';
-// import { useApiStore } from '@/stores/api.store';
-// import { ApiRequestOptions } from '@/types/api';
-// import { toast } from 'react-toastify';
+import { apiClient } from "@/libs/api/service";
+import { useApiStore } from "@/stores/api.store";
+import { APIErrorResponse, ApiRequestOptions } from "@/types/api";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-// export function useApi() {
-//   const { startLoading, stopLoading, setError, clearError } = useApiStore();
+export function useApi() {
+  const { startLoading, stopLoading, setError, clearError } = useApiStore();
 
-//   const callApi = async <T,>(
-//     endpoint: string,
-//     options?: ApiRequestOptions,
-//     successMessage?: string
-//   ): Promise<T | null> => {
-//     startLoading();
-//     clearError(endpoint);
+  const callApi = async <T,>(
+    endpoint: string,
+    options?: ApiRequestOptions,
+    successMessage?: string
+  ): Promise<T | null> => {
+    startLoading();
+    clearError(endpoint);
 
-//     try {
-//       const response = await apiClient<T>(endpoint, options);
+    try {
+      const response = await apiClient<T>(endpoint, options);
 
-//       if (response.error) {
-//         setError(endpoint, response.error);
-//         return null;
-//       }
+      if (response.error) {
+        setError(endpoint, response.error);
+        return null;
+      }
 
-//       if (successMessage) {
-//         toast.success(successMessage);
-//       }
+      if (successMessage) {
+        toast.success(successMessage);
+      }
 
-//       return response.data;
-//     } catch (error: any) {
-//       const errorMessage = error.response?.data?.message || error.message;
-//       setError(endpoint, errorMessage);
-//       return null;
-//     } finally {
-//       stopLoading();
-//     }
-//   };
+      //   return response.data;
+      return response.data ?? null;
+    } catch (error: unknown) {
+      let errorMessage = "Something went wrong";
 
-//   return { callApi };
-// }
+      if (axios.isAxiosError<APIErrorResponse>(error)) {
+        errorMessage = error.response?.data?.message || error.message;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      setError(endpoint, errorMessage);
+      return null;
+    } finally {
+      stopLoading();
+    }
+  };
+
+  return { callApi };
+}
