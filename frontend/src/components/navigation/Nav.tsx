@@ -21,11 +21,16 @@ export default function Nav() {
         <div className="flex items-center justify-between">
           <div className="flex shrink-0">
             <Link aria-current="page" className="flex items-center" href="/">
-              <img
+              {/* <Image
                 className="h-7 w-auto"
-                src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
-                alt=""
-              />
+                // src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+                alt="alt"
+                // key={i}
+                // src={`/avatars/avatar-${(i % 10) + 1}.jpg`}
+                // alt={`Avatar ${i + 1}`}
+                // className="w-8 h-8 rounded-full border border-white object-cover"
+                // loading="lazy"
+              /> */}
               <p className="sr-only">Website Title</p>
             </Link>
           </div>

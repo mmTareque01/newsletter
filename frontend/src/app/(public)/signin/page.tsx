@@ -5,17 +5,18 @@ import OrBorder from "@/components/OrBorder";
 import SocialLogin from "@/components/SocialLogin";
 import {
   SignInFormFields,
+  SignInFormValues,
   SignInTitle,
   SignInToSignUp,
 } from "@/constants/auth";
 
 export default function SignInForm() {
-  const handleSubmit = (data: Record<string, any>) => {
-    const loginData = {
-      email: data.email as string,
-      password: data.password as string,
-    };
-    console.log(loginData);
+  const handleSubmit = (data: SignInFormValues) => {
+    // const loginData = {
+    //   email: data.email as string,
+    //   password: data.password as string,
+    // };
+    console.log(data);
     // onLogin(loginData);
   };
   return (
@@ -33,7 +34,11 @@ export default function SignInForm() {
               <SocialLogin />
               <OrBorder />
 
-              <Form fields={SignInFormFields} onSubmit={handleSubmit} submitText="Sign In"/>
+              <Form<SignInFormValues>
+                fields={SignInFormFields}
+                onSubmit={handleSubmit}
+                submitText="Sign In"
+              />
 
               <GenerateUI
                 UIComponents={SignInToSignUp}

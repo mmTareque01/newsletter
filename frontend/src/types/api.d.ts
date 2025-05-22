@@ -8,8 +8,18 @@ export interface ApiResponse<T> {
 export interface ApiRequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
   headers?: Record<string, string>;
-  data?: any;
-  params?: any;
+  data?: {
+    email?:string;
+    password?:string;
+    firstName?:string;
+    lastName?:string;
+  };
+  params?: {
+    pageNumber:number;
+    pageSize:number;
+    search: string;
+
+  };
   cache?: boolean;
   revalidate?: number;
 }

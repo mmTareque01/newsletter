@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {  FaUser } from "react-icons/fa";
 
 export default function Hero() {
@@ -39,7 +40,7 @@ export default function Hero() {
             // />
 
             false ? (
-              <img
+              <Image
                 key={i}
                 src={`/avatars/avatar-${(i % 10) + 1}.jpg`}
                 alt={`Avatar ${i + 1}`}

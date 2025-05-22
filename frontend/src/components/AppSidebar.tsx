@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 import Image from "next/image";
-import { useSidebar } from "@/context/SidebarProvider";
 import { useAppSettings } from "@/stores/app-settings-store";
 import { HiDotsHorizontal } from "react-icons/hi";
 import SidebarWidget from "./SidebarWidget";

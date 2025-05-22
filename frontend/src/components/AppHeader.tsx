@@ -6,7 +6,6 @@ import Link from "next/link";
 // import NotificationDropdown from "../components/header/NotificationDropdown";
 // import UserDropdown from "../components/header/UserDropdown";
 import Image from "next/image";
-import { useSidebar } from "@/context/SidebarProvider";
 import { ThemeToggleButton } from "./ThemeToggleButton";
 import NotificationDropdown from "./NotificationDropdown";
 import UserDropdown from "./UserDropdown";

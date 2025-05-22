@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "../Table";
 
 //   import Badge from "../ui/badge/Badge";
@@ -157,7 +158,7 @@ import { Table, TableBody, TableCell, TableHeader, TableRow } from "../Table";
                   <TableCell className="py-3">
                     <div className="flex items-center gap-3">
                       <div className="h-[50px] w-[50px] overflow-hidden rounded-md">
-                        <img
+                        <Image
                           src={product.image}
                           className="h-[50px] w-[50px]"
                           alt={product.name}
