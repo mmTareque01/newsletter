@@ -1,5 +1,4 @@
 "use client";
-import { Login } from "@/apis/apisEndpoint";
 import Form from "@/components/form/Form";
 import GenerateUI from "@/components/GenerateUI";
 import OrBorder from "@/components/OrBorder";
@@ -14,32 +13,8 @@ import { useApi } from "@/hooks/useAPI";
 // import { redirect } from "next/navigation";
 
 export default function SignInForm() {
-  const { callApi } = useApi();
+  const { handleLogin } = useApi();
 
-  const handleSubmit = async (data: SignInFormValues) => {
-
-    try {
-      const authData = await callApi(
-        Login,
-        {
-          method: "POST",
-          data: data,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-        "Login Successfully"
-      );
-      console.log(authData);
-
-      if (authData) {
-        // redirect("/dashboard");
-        window.location.href = "/dashboard";
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="flex flex-col max-w-[500px] bg-white  p-5 rounded-2xl  shadow-lg">
@@ -57,7 +32,7 @@ export default function SignInForm() {
 
               <Form<SignInFormValues>
                 fields={SignInFormFields}
-                onSubmit={handleSubmit}
+                onSubmit={handleLogin}
                 submitText="Sign In"
               />
 

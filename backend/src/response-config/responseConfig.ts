@@ -100,7 +100,7 @@ export class ResponseConfig {
   //   });
   // }
 
-  public setRefreshToken(res: Response, refreshToken: string, age = 7) {
+  public setRefreshToken(res: Response, refreshToken: string|null, age = 7) {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // Only secure in production
