@@ -1,58 +1,51 @@
 import { PrismaClient } from "@prisma/client";
 
-export const softDelete_x = (prisma: PrismaClient) => {
+export const extendedPrisma = (prisma: PrismaClient) => {
   return prisma.$extends({
     model: {
       $allModels: {
-        async findManyActive<T, A>(
+        // Pagination method
+        async paginate<T, A>(
           this: T,
-          args: {
-            where?: A extends { where?: infer W } ? W : any;
-            include?: A extends { include?: infer I } ? I : never;
-            orderBy?: A extends { orderBy?: infer O } ? O : never;
-            skip?: number;
-            take?: number;
-          } = {}
-        ) {
-          const context = this as any;
-
-          return context.findMany({
-            ...args,
-            where: {
-              ...(args.where || {}),
-              deletedAt: null,
-            },
-          });
-        },
-
-        async findFirstActive<T, A>(
-          this: T,
-          args: {
-            where?: A extends { where?: infer W } ? W : any;
+          options: {
+            pageNo?: number;
+            pageSize?: number;
+            where?: any;
             include?: A extends { include?: infer I } ? I : never;
             orderBy?: A extends { orderBy?: infer O } ? O : never;
           } = {}
         ) {
           const context = this as any;
+          const {
+            pageNo = 1,
+            pageSize = 10,
+            where,
+            include,
+            orderBy,
+          } = options;
+          const skip = (pageNo - 1) * pageSize;
 
-          return context.findFirst({
-            ...args,
-            where: {
-              ...(args.where || {}),
-              deletedAt: null,
-            },
-          });
+          const [data, total] = await Promise.all([
+            context.findMany({
+              skip,
+              take: pageSize,
+              where,
+              include,
+              orderBy,
+            }),
+            context.count({ where }),
+          ]);
+
+          return {
+            data,
+            total,
+            pageNo,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+          };
         },
-      },
-    },
-  });
-};
-// import { PrismaClient } from "@prisma/client";
 
-export const softDelete = (prisma: PrismaClient) => {
-  return prisma.$extends({
-    model: {
-      $allModels: {
+        // Soft delete method
         async softDelete<T, A>(
           this: T,
           args: { where: A extends { where?: infer W } ? W : any }
@@ -64,7 +57,7 @@ export const softDelete = (prisma: PrismaClient) => {
           });
         },
 
-        // Optional: Keep your existing "active" finders
+        // Find all active records (not soft deleted)
         async findManyActive<T, A>(
           this: T,
           args: {
@@ -86,6 +79,7 @@ export const softDelete = (prisma: PrismaClient) => {
           });
         },
 
+        // Find first active record (not soft deleted)
         async findFirstActive<T, A>(
           this: T,
           args: {
@@ -108,8 +102,3 @@ export const softDelete = (prisma: PrismaClient) => {
     },
   });
 };
-
-
-
-// softDelete.ts
-
