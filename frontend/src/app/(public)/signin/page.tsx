@@ -9,11 +9,11 @@ import {
   SignInTitle,
   SignInToSignUp,
 } from "@/constants/auth";
-import { useApi } from "@/hooks/useAPI";
+import { useAuthApi } from "@/hooks/callAPI.tsx/useAuthAPI";
 // import { redirect } from "next/navigation";
 
 export default function SignInForm() {
-  const { handleLogin } = useApi();
+  const { handleLogin } = useAuthApi();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

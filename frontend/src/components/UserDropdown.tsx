@@ -3,13 +3,13 @@ import { DropdownItem } from "./DropDownItem";
 import { Dropdown } from "./DropDown";
 // import Image from "next/image";
 import { FiUser } from "react-icons/fi";
-import { useApi } from "@/hooks/useAPI";
 import Button from "./Button";
+import { useAuthApi } from "@/hooks/callAPI.tsx/useAuthAPI";
 // import { Router } from "next/router";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const {   handleLogout} = useApi();
+  const {   handleLogout} = useAuthApi();
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
