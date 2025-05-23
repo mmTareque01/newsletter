@@ -2,7 +2,7 @@ import { FieldProps } from "@/components/form/Form";
 import { UIComponent } from "@/types/generateUI";
 import Link from "next/link";
 
-export const SignUpFormFields = [
+export const SignUpFormFields: FieldProps<SignUpFormValues>[] = [
   {
     name: "firstName",
     label: "First Name",
@@ -63,6 +63,14 @@ export const SignUpFormFields = [
   },
 ];
 
+export interface SignUpFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 export const SignUpTitle: UIComponent[] = [
   {
     component: "h1",
@@ -92,7 +100,7 @@ export const SignUptoSignIn: UIComponent[] = [
   },
 ];
 
-export const SignInFormFields:FieldProps<SignInFormValues>[] = [
+export const SignInFormFields: FieldProps<SignInFormValues>[] = [
   {
     name: "email",
     type: "email",

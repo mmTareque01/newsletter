@@ -9,6 +9,7 @@ export interface ApiResponse<T> {
 
 export interface APIErrorResponse {
   message?: string;
+  error?: string;
   errors?: Record<string, string[]>;
 }
 
@@ -28,4 +29,5 @@ export interface ApiRequestOptions {
   };
   cache?: boolean;
   revalidate?: number;
+  credentials?: string;
 }

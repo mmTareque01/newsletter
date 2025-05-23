@@ -22,7 +22,8 @@ export function useApi() {
       const response = await apiClient<T>(endpoint, options);
 
       if (response.error) {
-        setError(endpoint, response.error);
+        // alert(2)
+        setError(endpoint, 'response.error');
         return null;
       }
 
@@ -40,6 +41,8 @@ export function useApi() {
       } else if (error instanceof Error) {
         errorMessage = error.message;
       }
+
+      alert(1)
 
       setError(endpoint, errorMessage);
       return null;

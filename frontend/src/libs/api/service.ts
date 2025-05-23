@@ -6,7 +6,13 @@ export async function apiClient<T>(
   endpoint: string,
   options: ApiRequestOptions = {}
 ): Promise<ApiResponse<T>> {
-  const { method = "GET", headers = {}, data, params, cache } = options;
+  const {
+    method = "GET",
+    headers = {},
+    data,
+    params,
+    cache,
+  } = options;
 
   const config: AxiosRequestConfig = {
     method,
@@ -16,6 +22,7 @@ export async function apiClient<T>(
     params,
     adapter: cache ? undefined : axios.defaults.adapter,
     signal: cache ? undefined : new AbortController().signal,
+    withCredentials: true,
   };
 
   try {

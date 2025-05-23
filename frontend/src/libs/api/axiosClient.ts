@@ -7,7 +7,7 @@ import axios, {
 } from "axios";
 import { toast } from "react-toastify";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL = 'http://localhost:3030/api'// process.env.API_BASE_URL;
 
 const axiosClient = axios.create({
   baseURL: BASE_URL,
@@ -41,11 +41,14 @@ axiosClient.interceptors.response.use(
   },
   (error: AxiosError) => {
     const errorMessage =
-      (error.response?.data as APIErrorResponse)?.message ||
+      (error.response?.data as APIErrorResponse)?.error ||
       error.message ||
       "Something went wrong";
 
+    //   console.log(error?.response?.data?.error)
+
     if (typeof window !== "undefined") {
+        // alert(errorMessage)
       toast.error(errorMessage);
     }
     return Promise.reject(error);

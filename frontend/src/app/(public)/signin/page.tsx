@@ -1,4 +1,5 @@
 "use client";
+import { Login } from "@/apis/apisEndpoint";
 import Form from "@/components/form/Form";
 import GenerateUI from "@/components/GenerateUI";
 import OrBorder from "@/components/OrBorder";
@@ -9,15 +10,35 @@ import {
   SignInTitle,
   SignInToSignUp,
 } from "@/constants/auth";
+import { useApi } from "@/hooks/useAPI";
+// import { redirect } from "next/navigation";
 
 export default function SignInForm() {
-  const handleSubmit = (data: SignInFormValues) => {
-    // const loginData = {
-    //   email: data.email as string,
-    //   password: data.password as string,
-    // };
-    console.log(data);
-    // onLogin(loginData);
+  const { callApi } = useApi();
+
+  const handleSubmit = async (data: SignInFormValues) => {
+
+    try {
+      const authData = await callApi(
+        Login,
+        {
+          method: "POST",
+          data: data,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+        "Login Successfully"
+      );
+      console.log(authData);
+
+      if (authData) {
+        // redirect("/dashboard");
+        window.location.href = "/dashboard";
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

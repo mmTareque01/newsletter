@@ -1,29 +1,24 @@
 "use client";
-// import Form from "@/components/form/Form";
+import Form from "@/components/form/Form";
 import GenerateUI from "@/components/GenerateUI";
 import OrBorder from "@/components/OrBorder";
 import SocialLogin from "@/components/SocialLogin";
 import {
-  // SignUpFormFields,
+  SignUpFormFields,
+  SignUpFormValues,
   SignUpTitle,
   SignUptoSignIn,
 } from "@/constants/auth";
 
 export default function SignUpForm() {
-  // const handleSubmit = (data: {
-  //   firstName:string;
-  //   lastName:string;
-  //   email:string;
-  //   password:string;
-  //   confirmPassword:string;
-  // }) => {
-  //   // const loginData = {
-  //   //   email: data.email as string,
-  //   //   password: data.password as string,
-  //   // };
-  //   console.log(data);
-  //   // onLogin(loginData);
-  // };
+  const handleSubmit = (data:SignUpFormValues) => {
+    // const loginData = {
+    //   email: data.email as string,
+    //   password: data.password as string,
+    // };
+    console.log(data);
+    // onLogin(loginData);
+  };
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="flex flex-col max-w-[500px] bg-white  p-5 rounded-2xl  shadow-lg">
@@ -39,10 +34,11 @@ export default function SignUpForm() {
               <SocialLogin />
               <OrBorder />
 
-              {/* <Form 
-              fields={SignUpFormFields} 
-              // onSubmit={handleSubmit}
-               submitText="Sign Up"/> */}
+              <Form
+                fields={SignUpFormFields}
+                onSubmit={handleSubmit}
+                submitText="Sign Up"
+              />
 
               <GenerateUI
                 UIComponents={SignUptoSignIn}

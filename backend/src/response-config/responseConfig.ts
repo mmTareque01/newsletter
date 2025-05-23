@@ -91,12 +91,24 @@ export class ResponseConfig {
     res.setHeader("Cache-Control", `${type}, max-age=${age}`);
   }
 
+  // public setRefreshToken(res: Response, refreshToken: string, age = 7) {
+  //   res.cookie("refreshToken", refreshToken, {
+  //     httpOnly: true,
+  //     secure: true,
+  //     sameSite: "strict",
+  //     maxAge: age * 24 * 60 * 60 * 1000, // 7 days
+  //   });
+  // }
+
   public setRefreshToken(res: Response, refreshToken: string, age = 7) {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: true,
-      sameSite: "strict",
-      maxAge: age * 24 * 60 * 60 * 1000, // 7 days
+      secure: process.env.NODE_ENV === "production", // Only secure in production
+      sameSite: "lax", // More flexible than strict
+      maxAge: age * 24 * 60 * 60 * 1000,
+      path: "/", // Accessible across all routes
+      domain:
+        process.env.NODE_ENV === "production" ? ".yourdomain.com" : undefined,
     });
   }
 
@@ -163,7 +175,7 @@ export class ResponseConfig {
     res: Response,
     message: string,
     error: any,
-    data?: any 
+    data?: any
   ): Response {
     return this.createResponse(res, {
       statusCode: 401,
