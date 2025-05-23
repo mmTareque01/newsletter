@@ -4,6 +4,7 @@
 **/node_modules/
 node_modules
 **/.gitignore
+**/cookies.txt
 
 # === Yarn Plug'n'Play ===
 .pnp.*
