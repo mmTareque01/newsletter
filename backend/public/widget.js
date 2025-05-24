@@ -73,7 +73,7 @@
     const email = form.email.value;
 
     try {
-      const res = await fetch("http://localhost:3030/api/newsletter/subscribe", {
+      const res = await fetch("http://localhost:3030/public/api/newsletter/subscribe", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

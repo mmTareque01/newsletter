@@ -88,7 +88,7 @@ model NewsletterType {
   id          String  @id @default(uuid()) @db.Uuid
   title       String
   description String?
-  key         String? @unique
+  key         String @unique
 
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt

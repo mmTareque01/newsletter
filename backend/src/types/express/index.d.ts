@@ -5,6 +5,10 @@ declare global {
   namespace Express {
     interface Request {
       user: UserType; // Adjust this type based on your authenticateUser() return
+      info:{
+        // id: string;
+        newsletterTypeId: string;
+      }
     }
   }
 }
