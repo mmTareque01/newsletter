@@ -1,120 +1,120 @@
-'use client';
-import { useState, useRef, useEffect } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import { EventInput, DateSelectArg, EventClickArg, EventApi, EventContentArg } from "@fullcalendar/core";
+// 'use client';
+// import { useState, useRef, useEffect } from "react";
+// import FullCalendar from "@fullcalendar/react";
+// import dayGridPlugin from "@fullcalendar/daygrid";
+// import timeGridPlugin from "@fullcalendar/timegrid";
+// import interactionPlugin from "@fullcalendar/interaction";
+// import { EventInput, DateSelectArg, EventClickArg, EventApi, EventContentArg } from "@fullcalendar/core";
 
-import { useModal } from "@/hooks/useModal";
+// import { useModal } from "@/hooks/useModal";
 import PageMeta from "@/others/PageMeta";
-import { Modal } from "@/components/modal";
+// import { Modal } from "@/components/modal";
 
-interface CalendarEvent extends EventInput {
-  id: string;
-  extendedProps: {
-    calendar: string;
-  };
-}
+// interface CalendarEvent extends EventInput {
+//   id: string;
+//   extendedProps: {
+//     calendar: string;
+//   };
+// }
 
 const Calendar = () => {
-  const [selectedEvent, setSelectedEvent] = useState<EventApi | null>(null);
-  const [eventTitle, setEventTitle] = useState("");
-  const [eventStartDate, setEventStartDate] = useState("");
-  const [eventEndDate, setEventEndDate] = useState("");
-  const [eventLevel, setEventLevel] = useState("");
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-  const calendarRef = useRef<FullCalendar>(null);
-  const { isOpen, openModal, closeModal } = useModal();
+  // const [selectedEvent, setSelectedEvent] = useState<EventApi | null>(null);
+  // const [eventTitle, setEventTitle] = useState("");
+  // const [eventStartDate, setEventStartDate] = useState("");
+  // const [eventEndDate, setEventEndDate] = useState("");
+  // const [eventLevel, setEventLevel] = useState("");
+  // const [events, setEvents] = useState<CalendarEvent[]>([]);
+  // const calendarRef = useRef<FullCalendar>(null);
+  // const { isOpen, openModal, closeModal } = useModal();
 
-  const calendarsEvents = {
-    Danger: "danger",
-    Success: "success",
-    Primary: "primary",
-    Warning: "warning",
-  };
+  // const calendarsEvents = {
+  //   Danger: "danger",
+  //   Success: "success",
+  //   Primary: "primary",
+  //   Warning: "warning",
+  // };
 
-  useEffect(() => {
-    // Initialize with some events
-    setEvents([
-      {
-        id: "1",
-        title: "Event Conf.",
-        start: new Date().toISOString().split("T")[0],
-        extendedProps: { calendar: "Danger" },
-      },
-      {
-        id: "2",
-        title: "Meeting",
-        start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Success" },
-      },
-      {
-        id: "3",
-        title: "Workshop",
-        start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
-        end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
-        extendedProps: { calendar: "Primary" },
-      },
-    ]);
-  }, []);
+  // useEffect(() => {
+  //   // Initialize with some events
+  //   setEvents([
+  //     {
+  //       id: "1",
+  //       title: "Event Conf.",
+  //       start: new Date().toISOString().split("T")[0],
+  //       extendedProps: { calendar: "Danger" },
+  //     },
+  //     {
+  //       id: "2",
+  //       title: "Meeting",
+  //       start: new Date(Date.now() + 86400000).toISOString().split("T")[0],
+  //       extendedProps: { calendar: "Success" },
+  //     },
+  //     {
+  //       id: "3",
+  //       title: "Workshop",
+  //       start: new Date(Date.now() + 172800000).toISOString().split("T")[0],
+  //       end: new Date(Date.now() + 259200000).toISOString().split("T")[0],
+  //       extendedProps: { calendar: "Primary" },
+  //     },
+  //   ]);
+  // }, []);
 
-  const handleDateSelect = (selectInfo: DateSelectArg) => {
-    resetModalFields();
-    setEventStartDate(selectInfo.startStr);
-    setEventEndDate(selectInfo.endStr || selectInfo.startStr);
-    openModal();
-  };
+  // const handleDateSelect = (selectInfo: DateSelectArg) => {
+  //   resetModalFields();
+  //   setEventStartDate(selectInfo.startStr);
+  //   setEventEndDate(selectInfo.endStr || selectInfo.startStr);
+  //   openModal();
+  // };
 
-  const handleEventClick = (clickInfo: EventClickArg) => {
-    const event = clickInfo.event;
-    setSelectedEvent(event);
-    setEventTitle(event.title);
-    setEventStartDate(event.start?.toISOString().split("T")[0] || "");
-    setEventEndDate(event.end?.toISOString().split("T")[0] || "");
-    setEventLevel(event.extendedProps.calendar);
-    openModal();
-  };
+  // const handleEventClick = (clickInfo: EventClickArg) => {
+  //   const event = clickInfo.event;
+  //   setSelectedEvent(event);
+  //   setEventTitle(event.title);
+  //   setEventStartDate(event.start?.toISOString().split("T")[0] || "");
+  //   setEventEndDate(event.end?.toISOString().split("T")[0] || "");
+  //   setEventLevel(event.extendedProps.calendar);
+  //   openModal();
+  // };
 
-  const handleAddOrUpdateEvent = () => {
-    if (selectedEvent) {
-      // Update existing event
-      setEvents((prevEvents) =>
-        prevEvents.map((event) =>
-          event.id === selectedEvent.id
-            ? {
-                ...event,
-                title: eventTitle,
-                start: eventStartDate,
-                end: eventEndDate,
-                extendedProps: { calendar: eventLevel },
-              }
-            : event
-        )
-      );
-    } else {
-      // Add new event
-      const newEvent: CalendarEvent = {
-        id: Date.now().toString(),
-        title: eventTitle,
-        start: eventStartDate,
-        end: eventEndDate,
-        allDay: true,
-        extendedProps: { calendar: eventLevel },
-      };
-      setEvents((prevEvents) => [...prevEvents, newEvent]);
-    }
-    closeModal();
-    resetModalFields();
-  };
+  // const handleAddOrUpdateEvent = () => {
+  //   if (selectedEvent) {
+  //     // Update existing event
+  //     setEvents((prevEvents) =>
+  //       prevEvents.map((event) =>
+  //         event.id === selectedEvent.id
+  //           ? {
+  //               ...event,
+  //               title: eventTitle,
+  //               start: eventStartDate,
+  //               end: eventEndDate,
+  //               extendedProps: { calendar: eventLevel },
+  //             }
+  //           : event
+  //       )
+  //     );
+  //   } else {
+  //     // Add new event
+  //     const newEvent: CalendarEvent = {
+  //       id: Date.now().toString(),
+  //       title: eventTitle,
+  //       start: eventStartDate,
+  //       end: eventEndDate,
+  //       allDay: true,
+  //       extendedProps: { calendar: eventLevel },
+  //     };
+  //     setEvents((prevEvents) => [...prevEvents, newEvent]);
+  //   }
+  //   closeModal();
+  //   resetModalFields();
+  // };
 
-  const resetModalFields = () => {
-    setEventTitle("");
-    setEventStartDate("");
-    setEventEndDate("");
-    setEventLevel("");
-    setSelectedEvent(null);
-  };
+  // const resetModalFields = () => {
+  //   setEventTitle("");
+  //   setEventStartDate("");
+  //   setEventEndDate("");
+  //   setEventLevel("");
+  //   setSelectedEvent(null);
+  // };
 
   return (
     <>
@@ -122,7 +122,7 @@ const Calendar = () => {
         title="Next.js Calendar Dashboard | TailAdmin - Next.js Admin Dashboard Template"
         description="This is Next.js Calendar Dashboard page for TailAdmin - Next.js Tailwind CSS Admin Dashboard Template"
       />
-      <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+      {/* <div className="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
         <div className="custom-calendar">
           <FullCalendar
             ref={calendarRef}
@@ -248,28 +248,28 @@ const Calendar = () => {
             </div>
           </div>
         </Modal>
-      </div>
+      </div> */}
     </>
   );
 };
 
-const renderEventContent = (eventInfo: EventContentArg) => {
-  const colorMap: Record<string, string> = {
-    danger: "bg-red-500",
-    success: "bg-green-500",
-    primary: "bg-blue-500",
-    warning: "bg-yellow-500"
-  };
+// const renderEventContent = (eventInfo: EventContentArg) => {
+//   const colorMap: Record<string, string> = {
+//     danger: "bg-red-500",
+//     success: "bg-green-500",
+//     primary: "bg-blue-500",
+//     warning: "bg-yellow-500"
+//   };
   
-  const colorClass = colorMap[eventInfo.event.extendedProps.calendar.toLowerCase()] || "bg-gray-500";
+//   const colorClass = colorMap[eventInfo.event.extendedProps.calendar.toLowerCase()] || "bg-gray-500";
   
-  return (
-    <div className={`flex items-center p-1 text-white text-sm rounded ${colorClass}`}>
-      <div className="w-2 h-2 mr-2 bg-white rounded-full"></div>
-      <div className="mr-2">{eventInfo.timeText}</div>
-      <div>{eventInfo.event.title}</div>
-    </div>
-  );
-};
+//   return (
+//     <div className={`flex items-center p-1 text-white text-sm rounded ${colorClass}`}>
+//       <div className="w-2 h-2 mr-2 bg-white rounded-full"></div>
+//       <div className="mr-2">{eventInfo.timeText}</div>
+//       <div>{eventInfo.event.title}</div>
+//     </div>
+//   );
+// };
 
 export default Calendar;

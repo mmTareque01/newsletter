@@ -1,14 +1,18 @@
-// lib/api/service.ts
 import { ApiRequestOptions, ApiResponse } from "@/types/api";
 import axiosClient from "./axiosClient";
 import axios, { AxiosRequestConfig } from "axios";
-// import { ApiRequestOptions, ApiResponse } from "./types";
 
 export async function apiClient<T>(
   endpoint: string,
   options: ApiRequestOptions = {}
 ): Promise<ApiResponse<T>> {
-  const { method = 'GET', headers = {}, data, params, cache, revalidate } = options;
+  const {
+    method = "GET",
+    headers = {},
+    data,
+    params,
+    cache,
+  } = options;
 
   const config: AxiosRequestConfig = {
     method,
@@ -16,9 +20,9 @@ export async function apiClient<T>(
     headers,
     data,
     params,
-    // Next.js specific cache options
     adapter: cache ? undefined : axios.defaults.adapter,
     signal: cache ? undefined : new AbortController().signal,
+    withCredentials: true,
   };
 
   try {
@@ -28,18 +32,28 @@ export async function apiClient<T>(
       error: null,
       status: response.status,
     };
-  } catch (error: any) {
-    return {
-      data: null,
-      error: (error.response?.data as any)?.message || error.message,
-      status: error.response?.status || 500,
-    };
+  } catch (error: unknown) {
+    // return {
+    //   data: null,
+    //   error: (error?.response?.data )?.message || error.message,
+    //   status: error?.response?.status || 500,
+    // };
+
+    if (axios.isAxiosError(error)) {
+      return {
+        data: null,
+        error: error.response?.data?.message || error.message,
+        status: error.response?.status || 500,
+      };
+    } else {
+      return {
+        data: null,
+        error: "An unknown error occurred",
+        status: 500,
+      };
+    }
   }
 }
-
-// lib/api/server.ts
-// import { apiClient } from './service';
-// import { ApiRequestOptions } from './types';
 
 export async function serverApiClient<T>(
   endpoint: string,

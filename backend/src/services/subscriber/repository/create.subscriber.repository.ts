@@ -1,10 +1,12 @@
 import { prisma } from "../../../connection";
-import { CustomError } from "../../../others/errors";
+import { CustomError } from "../../../libs/errors";
 
 export const createSubscriberRepo = async (data: {
   email: string;
   name?: string;
-  phone?: string;
+  phone?: string;// Optional, if you want to associate the subscriber with a user
+  newsletterTypeId: string; 
+  userId:string
 }) => {
   const existingSubscriber = await prisma.subscriber.findUnique({
     where: { email: data.email },

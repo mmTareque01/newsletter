@@ -1,7 +1,7 @@
 // middlewares/errorHandler.ts
 import { Request, Response, NextFunction } from "express";
 import { response } from "../response-config/response";
-import { CustomError } from "../others/errors";
+import { CustomError } from "../libs/errors";
 
 
 //  error: this.name,

@@ -9,6 +9,7 @@ export function ToastProvider() {
     <ToastContainer
       position="top-center"
       autoClose={5000}
+      // autoClose={10000} 
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick
@@ -17,6 +18,7 @@ export function ToastProvider() {
       draggable
       pauseOnHover
       theme="colored"
+
     />
   );
 }

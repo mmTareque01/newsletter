@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 import Image from "next/image";
-import { useSidebar } from "@/context/SidebarProvider";
 import { useAppSettings } from "@/stores/app-settings-store";
 import { HiDotsHorizontal } from "react-icons/hi";
 import SidebarWidget from "./SidebarWidget";
@@ -14,24 +13,26 @@ import { adminNavItems } from "@/constants/nav";
 
 
 const AppSidebar = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
+  // const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const { expandedSidebar } = useAppSettings();
+  const isMobileOpen = false
+  const isHovered = false;
 
   return (
     <aside
       className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white 0 text-gray-900  h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
         
         lg:translate-x-0`}
-      onMouseEnter={() => !expandedSidebar && setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      // onMouseEnter={() => !expandedSidebar && setIsHovered(true)}
+      // onMouseLeave={() => setIsHovered(false)}
     >
       <div
         className={`py-8 flex ${
-          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+          !expandedSidebar && !isHovered ? "lg:justify-center" : "justify-start"
         }`}
       >
         <Link href="/dashboard">
-          {isExpanded || isHovered || isMobileOpen ? (
+          {expandedSidebar || isHovered || isMobileOpen ? (
             <>
               <Image
                 className="dark:hidden"
@@ -68,12 +69,12 @@ const AppSidebar = () => {
             <div>
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
+                  !expandedSidebar && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
                 }`}
               >
-                {isExpanded || isHovered || isMobileOpen ? (
+                {expandedSidebar || isHovered || isMobileOpen ? (
                   "Menu"
                 ) : (
                   <HiDotsHorizontal />
@@ -101,7 +102,7 @@ const AppSidebar = () => {
             </div> */}
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
+        {expandedSidebar || isHovered || isMobileOpen ? <SidebarWidget /> : null}
       </div>
     </aside>
   );

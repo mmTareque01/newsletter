@@ -5,19 +5,15 @@ import OrBorder from "@/components/OrBorder";
 import SocialLogin from "@/components/SocialLogin";
 import {
   SignUpFormFields,
+  SignUpFormValues,
   SignUpTitle,
   SignUptoSignIn,
 } from "@/constants/auth";
+import { useAuthApi } from "@/hooks/callAPI.tsx/useAuthAPI";
 
 export default function SignUpForm() {
-  const handleSubmit = (data: Record<string, any>) => {
-    // const loginData = {
-    //   email: data.email as string,
-    //   password: data.password as string,
-    // };
-    console.log(data);
-    // onLogin(loginData);
-  };
+  const { handleRegister } = useAuthApi();
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="flex flex-col max-w-[500px] bg-white  p-5 rounded-2xl  shadow-lg">
@@ -33,7 +29,11 @@ export default function SignUpForm() {
               <SocialLogin />
               <OrBorder />
 
-              <Form fields={SignUpFormFields} onSubmit={handleSubmit} submitText="Sign Up"/>
+              <Form
+                fields={SignUpFormFields}
+                onSubmit={handleRegister}
+                submitText="Sign Up"
+              />
 
               <GenerateUI
                 UIComponents={SignUptoSignIn}

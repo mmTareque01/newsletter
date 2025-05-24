@@ -10,6 +10,8 @@ export const createSubscriberSchema = z.object({
     .regex(/^\+?[1-9]\d{1,14}$/)
     .optional(), // Optional with validation
   status: statusEnum.optional().default("ACTIVE"), // Optional with default
+  // newsletterTypeId: z.string().uuid(), // Mandatory field for association
+  // userId: z.string().uuid(), // Mandatory field for association
 });
 
 export const updateSubscriberSchema = z

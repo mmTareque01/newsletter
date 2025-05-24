@@ -12,7 +12,13 @@ export const createSubscriber = async (
     const { email, name, phone } = req.body;
 
     // Create new subscriber
-    const newSubscriber = await createSubscriberRepo({ email, name, phone });
+    const newSubscriber = await createSubscriberRepo({
+      email,
+      name,
+      phone,
+      userId: req.user.id,
+      newsletterTypeId: req.info.newsletterTypeId,
+    });
 
     response.ER201(
       res,

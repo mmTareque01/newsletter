@@ -1,22 +1,27 @@
 // lib/api/axiosClient.ts
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { toast } from 'react-toastify';
+import { APIErrorResponse } from "@/types/api";
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
+import { toast } from "react-toastify";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL = 'http://localhost:3030/api'// process.env.API_BASE_URL;
 
 const axiosClient = axios.create({
   baseURL: BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
-// Request interceptor with proper typing
+// // Request interceptor with proper typing
 axiosClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // Add auth token if exists
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
       if (token) {
         config.headers = config.headers || {};
         config.headers.Authorization = `Bearer ${token}`;
@@ -35,11 +40,15 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
-    const errorMessage = (error.response?.data as any)?.message || 
-                        error.message || 
-                        'Something went wrong';
-    
-    if (typeof window !== 'undefined') {
+    const errorMessage =
+      (error.response?.data as APIErrorResponse)?.error ||
+      error.message ||
+      "Something went wrong";
+
+    //   console.log(error?.response?.data?.error)
+
+    if (typeof window !== "undefined") {
+        // alert(errorMessage)
       toast.error(errorMessage);
     }
     return Promise.reject(error);

@@ -1,5 +1,5 @@
 import { prisma } from "../../../connection";
-import { CustomError } from "../../../others/errors";
+import { CustomError } from "../../../libs/errors";
 
 export const createSubscriberRepo = async (data: {
   email: string;

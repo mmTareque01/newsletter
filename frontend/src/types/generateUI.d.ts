@@ -1,9 +1,10 @@
 // Props for each UI component
+type HTMLElementTag = keyof JSX.IntrinsicElements;
 export interface UIComponent {
   /**
    * The HTML tag or React component to render
    */
-  component: HTMLElementTag | React.ComponentType<any>;
+  component: HTMLElementTag | ComponentType<React.PropsWithChildren<unknown>>;
 
   /**
    * CSS class names
@@ -23,8 +24,9 @@ export interface UIComponent {
   /**
    * All other props that the component might accept
    */
-  [key: string]: any;
+  [key: string]: unknown;
 }
+
 
 export interface GenerateUIProps {
   /**
@@ -35,7 +37,10 @@ export interface GenerateUIProps {
   /**
    * Optional wrapper component for all items
    */
-  wrapperComponent?: HTMLElementTag | React.ComponentType<any>;
+  // wrapperComponent?: HTMLElementTag | React.ComponentType<any>;
+  wrapperComponent?:
+    | HTMLElementTag
+    | ComponentType<React.PropsWithChildren<unknown>>;
 
   /**
    * Class name for the wrapper component

@@ -19,9 +19,9 @@ export interface FormField {
   }[];
 }
 
-export interface FormConfig {
-  fields: FormField[];
-  onSubmit: (data: Record<string, any>) => void;
-  submitText?: string;
-  className?: string;
-}
+// export interface FormConfig {
+//   fields: FormField[];
+//   onSubmit: (data: Record<string, any>) => void;
+//   submitText?: string;
+//   className?: string;
+// }

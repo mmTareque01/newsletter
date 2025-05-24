@@ -804,6 +804,6 @@ span.flatpickr-weekday,
   @apply opacity-100;
 }
 
-input{
+input, textarea{
   @apply text-gray-800
 }

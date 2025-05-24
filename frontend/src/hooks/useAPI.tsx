@@ -1,12 +1,11 @@
 // hooks/useApi.ts
-'use client';
+"use client";
 
-import { apiClient } from '@/libs/api/service';
-import { useApiStore } from '@/stores/api.store';
-import { ApiRequestOptions } from '@/types/api';
-// import { apiClient } from '@/lib/api/service';
-import { toast } from 'react-toastify';
-// import { ApiRequestOptions } from '@/lib/api/types';
+import { apiClient } from "@/libs/api/service";
+import { useApiStore } from "@/stores/api.store";
+import { APIErrorResponse, ApiRequestOptions } from "@/types/api";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export function useApi() {
   const { startLoading, stopLoading, setError, clearError } = useApiStore();
@@ -14,7 +13,8 @@ export function useApi() {
   const callApi = async <T,>(
     endpoint: string,
     options?: ApiRequestOptions,
-    successMessage?: string
+    successMessage?: string,
+    stopLoader?: boolean
   ): Promise<T | null> => {
     startLoading();
     clearError(endpoint);
@@ -23,7 +23,8 @@ export function useApi() {
       const response = await apiClient<T>(endpoint, options);
 
       if (response.error) {
-        setError(endpoint, response.error);
+        // alert(2)
+        setError(endpoint, "response.error");
         return null;
       }
 
@@ -31,13 +32,23 @@ export function useApi() {
         toast.success(successMessage);
       }
 
-      return response.data;
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || error.message;
+      //   return response.data;
+      return response.data ?? null;
+    } catch (error: unknown) {
+      let errorMessage = "Something went wrong";
+
+      if (axios.isAxiosError<APIErrorResponse>(error)) {
+        errorMessage = error.response?.data?.message || error.message;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      // alert(1);
+
       setError(endpoint, errorMessage);
       return null;
     } finally {
-      stopLoading();
+      if (!stopLoader) stopLoading();
     }
   };
 

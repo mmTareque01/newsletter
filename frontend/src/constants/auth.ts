@@ -1,7 +1,8 @@
+import { FieldProps } from "@/components/form/Form";
 import { UIComponent } from "@/types/generateUI";
 import Link from "next/link";
 
-export const SignUpFormFields = [
+export const SignUpFormFields: FieldProps<SignUpFormValues>[] = [
   {
     name: "firstName",
     label: "First Name",
@@ -56,11 +57,19 @@ export const SignUpFormFields = [
     showPasswordToggle: true,
     validation: {
       required: "Please confirm your password",
-      validate: (value: string, formValues: any) =>
-        value === formValues.password || "Passwords do not match",
+      // validate: (value: string, formValues: any) =>
+      //   value === formValues.password || "Passwords do not match",
     },
   },
 ];
+
+export interface SignUpFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export const SignUpTitle: UIComponent[] = [
   {
@@ -91,7 +100,7 @@ export const SignUptoSignIn: UIComponent[] = [
   },
 ];
 
-export const SignInFormFields = [
+export const SignInFormFields: FieldProps<SignInFormValues>[] = [
   {
     name: "email",
     type: "email",
@@ -122,6 +131,10 @@ export const SignInFormFields = [
     },
   },
 ];
+export interface SignInFormValues {
+  email: string;
+  password: string;
+}
 
 export const SignInTitle: UIComponent[] = [
   {

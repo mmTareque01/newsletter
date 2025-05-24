@@ -4,7 +4,7 @@ import { response } from "../../../response-config/response";
 import {
   generateAccessToken,
   verifyRefreshToken,
-} from "../../../others/tokenService";
+} from "../../../libs/tokenService";
 
 export const token = async (
   req: Request,

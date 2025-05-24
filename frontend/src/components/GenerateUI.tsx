@@ -3,7 +3,7 @@ import Box from "./Box"; // Adjust import path as needed
 import { GenerateUIProps } from "@/types/generateUI";
 
 // Type for all HTML element tag names
-type HTMLElementTag = keyof React.JSX.IntrinsicElements;
+// type HTMLElementTag = keyof React.JSX.IntrinsicElements;
 
 
 
