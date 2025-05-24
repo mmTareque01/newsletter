@@ -1,4 +1,4 @@
-import { prisma } from "../../../../connection";
+import { prisma } from "../../../connection";
 
 export const updateTypesRepo = async (
   id: string, // unique id of the newsletterType
@@ -10,6 +10,10 @@ export const updateTypesRepo = async (
   return await prisma.newsletterType.update({
     where: { id },
     data,
+    select: {
+      title: true,
+      description: true,
+      status: true,
+    },
   });
 };
-

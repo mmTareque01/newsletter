@@ -5,14 +5,18 @@ import {
   getNewsletterTypeList,
   updateNewsletterType,
 } from "./controllers";
-import { validate } from "../../../middleware/validation";
-import { newsletterTypeSchema } from "./validation";
+import { newsletterTypeSchema, updateNewsletterTypeSchema } from "./validation";
+import { validate } from "../../middleware/validation";
 
 const typeRouter = Router();
 
 typeRouter.post("/", validate(newsletterTypeSchema), createNewsletterType);
 typeRouter.get("/", getNewsletterTypeList);
-typeRouter.put("/", validate(newsletterTypeSchema), updateNewsletterType);
-typeRouter.delete("/", deleteNewsletterType);
+typeRouter.put(
+  "/:id",
+  validate(updateNewsletterTypeSchema),
+  updateNewsletterType
+);
+typeRouter.delete("/:id", deleteNewsletterType);
 
 export default typeRouter;

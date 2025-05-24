@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { response } from "../../../../response-config/response";
+import { response } from "../../../response-config/response";
 import { getAllTypesRepo } from "../repository/list.type.repo";
 
 export const getNewsletterTypeList = async (
@@ -12,7 +12,7 @@ export const getNewsletterTypeList = async (
     const pageSize = parseInt(req.query.pageSize as string) || 10;
 
     const { data, total, totalPages } = await getAllTypesRepo(
-      req.body.user.id,
+      req.user.id,
       pageNo,
       pageSize
     );

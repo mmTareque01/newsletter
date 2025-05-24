@@ -1,6 +1,6 @@
 import { prisma } from "../../../connection";
-import { CustomError } from "../../../others/errors";
-import { comparePassword } from "../../../others/hash";
+import { CustomError } from "../../../libs/errors";
+import { comparePassword } from "../../../libs/hash";
 
 export const loginRepo = async (data: {
   email: string;

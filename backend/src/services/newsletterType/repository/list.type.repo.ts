@@ -1,4 +1,4 @@
-import { prisma } from "../../../../connection";
+import { prisma } from "../../../connection";
 
 export const getAllTypesRepo = async (
   userId: string,

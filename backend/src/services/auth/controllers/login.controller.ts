@@ -6,7 +6,7 @@ import { loginRepo } from "../repository/login.user.repository";
 import {
   generateAccessToken,
   generateRefreshToken,
-} from "../../../others/tokenService";
+} from "../../../libs/tokenService";
 
 export const login = async (
   req: Request,

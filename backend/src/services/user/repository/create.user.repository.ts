@@ -1,5 +1,5 @@
 import { prisma } from "../../../connection";
-import { CustomError } from "../../../others/errors";
+import { CustomError } from "../../../libs/errors";
 
 export const createUserRepo = async (data: {
   email: string;

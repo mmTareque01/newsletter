@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { response } from "../../../response-config/response";
-import { createUserRepo } from "../repository/create.user.repository";
+import { updateTypesRepo } from "../repository/update.type.repo";
 
-
-export const create = async (
+export const updateNewsletterType = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -12,15 +11,13 @@ export const create = async (
     const { title, description } = req.body;
 
     // Create new subscriber
-    const newType = await createNewsletterTypeRepo({
+    const updatedType = await updateTypesRepo(req.params.id, {
       title,
       description,
-      userId: req.body.user.id,
     });
 
-    response.ER201(res, newType, "Newsletter type created successfully");
+    response.ER200(res, updatedType, "Newsletter type updated successfully");
   } catch (error) {
     next(error);
   }
 };
-

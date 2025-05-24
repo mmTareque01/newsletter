@@ -18,7 +18,7 @@ export const SocialMediaScalarFieldEnumSchema = z.enum(['id','facebook','twitter
 
 export const SubscriberScalarFieldEnumSchema = z.enum(['id','email','name','phone','createdAt','updatedAt','deletedAt','status','userId','newsletterTypeId']);
 
-export const NewsletterTypeScalarFieldEnumSchema = z.enum(['id','title','description','createdAt','updatedAt','deletedAt','status','userId']);
+export const NewsletterTypeScalarFieldEnumSchema = z.enum(['id','title','description','key','createdAt','updatedAt','deletedAt','status','userId']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -104,6 +104,7 @@ export const NewsletterTypeSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
   description: z.string().nullable(),
+  key: z.string().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   deletedAt: z.coerce.date().nullable(),
@@ -237,6 +238,7 @@ export const NewsletterTypeSelectSchema: z.ZodType<Prisma.NewsletterTypeSelect> 
   id: z.boolean().optional(),
   title: z.boolean().optional(),
   description: z.boolean().optional(),
+  key: z.boolean().optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
   deletedAt: z.boolean().optional(),
@@ -544,6 +546,7 @@ export const NewsletterTypeWhereInputSchema: z.ZodType<Prisma.NewsletterTypeWher
   id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
   title: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  key: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   deletedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
@@ -557,6 +560,7 @@ export const NewsletterTypeOrderByWithRelationInputSchema: z.ZodType<Prisma.News
   id: z.lazy(() => SortOrderSchema).optional(),
   title: z.lazy(() => SortOrderSchema).optional(),
   description: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  key: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   deletedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
@@ -566,11 +570,21 @@ export const NewsletterTypeOrderByWithRelationInputSchema: z.ZodType<Prisma.News
   subscribers: z.lazy(() => SubscriberOrderByRelationAggregateInputSchema).optional()
 }).strict();
 
-export const NewsletterTypeWhereUniqueInputSchema: z.ZodType<Prisma.NewsletterTypeWhereUniqueInput> = z.object({
-  id: z.string().uuid()
-})
+export const NewsletterTypeWhereUniqueInputSchema: z.ZodType<Prisma.NewsletterTypeWhereUniqueInput> = z.union([
+  z.object({
+    id: z.string().uuid(),
+    key: z.string()
+  }),
+  z.object({
+    id: z.string().uuid(),
+  }),
+  z.object({
+    key: z.string(),
+  }),
+])
 .and(z.object({
   id: z.string().uuid().optional(),
+  key: z.string().optional(),
   AND: z.union([ z.lazy(() => NewsletterTypeWhereInputSchema),z.lazy(() => NewsletterTypeWhereInputSchema).array() ]).optional(),
   OR: z.lazy(() => NewsletterTypeWhereInputSchema).array().optional(),
   NOT: z.union([ z.lazy(() => NewsletterTypeWhereInputSchema),z.lazy(() => NewsletterTypeWhereInputSchema).array() ]).optional(),
@@ -589,6 +603,7 @@ export const NewsletterTypeOrderByWithAggregationInputSchema: z.ZodType<Prisma.N
   id: z.lazy(() => SortOrderSchema).optional(),
   title: z.lazy(() => SortOrderSchema).optional(),
   description: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
+  key: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   deletedAt: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
@@ -606,6 +621,7 @@ export const NewsletterTypeScalarWhereWithAggregatesInputSchema: z.ZodType<Prism
   id: z.union([ z.lazy(() => UuidWithAggregatesFilterSchema),z.string() ]).optional(),
   title: z.union([ z.lazy(() => StringWithAggregatesFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
+  key: z.union([ z.lazy(() => StringNullableWithAggregatesFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   deletedAt: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
@@ -899,6 +915,7 @@ export const NewsletterTypeCreateInputSchema: z.ZodType<Prisma.NewsletterTypeCre
   id: z.string().uuid().optional(),
   title: z.string(),
   description: z.string().optional().nullable(),
+  key: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional().nullable(),
@@ -911,6 +928,7 @@ export const NewsletterTypeUncheckedCreateInputSchema: z.ZodType<Prisma.Newslett
   id: z.string().uuid().optional(),
   title: z.string(),
   description: z.string().optional().nullable(),
+  key: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional().nullable(),
@@ -923,6 +941,7 @@ export const NewsletterTypeUpdateInputSchema: z.ZodType<Prisma.NewsletterTypeUpd
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -935,6 +954,7 @@ export const NewsletterTypeUncheckedUpdateInputSchema: z.ZodType<Prisma.Newslett
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -947,6 +967,7 @@ export const NewsletterTypeCreateManyInputSchema: z.ZodType<Prisma.NewsletterTyp
   id: z.string().uuid().optional(),
   title: z.string(),
   description: z.string().optional().nullable(),
+  key: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional().nullable(),
@@ -958,6 +979,7 @@ export const NewsletterTypeUpdateManyMutationInputSchema: z.ZodType<Prisma.Newsl
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -968,6 +990,7 @@ export const NewsletterTypeUncheckedUpdateManyInputSchema: z.ZodType<Prisma.News
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -1335,6 +1358,7 @@ export const NewsletterTypeCountOrderByAggregateInputSchema: z.ZodType<Prisma.Ne
   id: z.lazy(() => SortOrderSchema).optional(),
   title: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
+  key: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   deletedAt: z.lazy(() => SortOrderSchema).optional(),
@@ -1346,6 +1370,7 @@ export const NewsletterTypeMaxOrderByAggregateInputSchema: z.ZodType<Prisma.News
   id: z.lazy(() => SortOrderSchema).optional(),
   title: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
+  key: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   deletedAt: z.lazy(() => SortOrderSchema).optional(),
@@ -1357,6 +1382,7 @@ export const NewsletterTypeMinOrderByAggregateInputSchema: z.ZodType<Prisma.News
   id: z.lazy(() => SortOrderSchema).optional(),
   title: z.lazy(() => SortOrderSchema).optional(),
   description: z.lazy(() => SortOrderSchema).optional(),
+  key: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   deletedAt: z.lazy(() => SortOrderSchema).optional(),
@@ -1901,6 +1927,7 @@ export const NewsletterTypeCreateWithoutUserInputSchema: z.ZodType<Prisma.Newsle
   id: z.string().uuid().optional(),
   title: z.string(),
   description: z.string().optional().nullable(),
+  key: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional().nullable(),
@@ -1912,6 +1939,7 @@ export const NewsletterTypeUncheckedCreateWithoutUserInputSchema: z.ZodType<Pris
   id: z.string().uuid().optional(),
   title: z.string(),
   description: z.string().optional().nullable(),
+  key: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional().nullable(),
@@ -2017,6 +2045,7 @@ export const NewsletterTypeScalarWhereInputSchema: z.ZodType<Prisma.NewsletterTy
   id: z.union([ z.lazy(() => UuidFilterSchema),z.string() ]).optional(),
   title: z.union([ z.lazy(() => StringFilterSchema),z.string() ]).optional(),
   description: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
+  key: z.union([ z.lazy(() => StringNullableFilterSchema),z.string() ]).optional().nullable(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   deletedAt: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
@@ -2145,6 +2174,7 @@ export const NewsletterTypeCreateWithoutSubscribersInputSchema: z.ZodType<Prisma
   id: z.string().uuid().optional(),
   title: z.string(),
   description: z.string().optional().nullable(),
+  key: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional().nullable(),
@@ -2156,6 +2186,7 @@ export const NewsletterTypeUncheckedCreateWithoutSubscribersInputSchema: z.ZodTy
   id: z.string().uuid().optional(),
   title: z.string(),
   description: z.string().optional().nullable(),
+  key: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional().nullable(),
@@ -2226,6 +2257,7 @@ export const NewsletterTypeUpdateWithoutSubscribersInputSchema: z.ZodType<Prisma
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -2237,6 +2269,7 @@ export const NewsletterTypeUncheckedUpdateWithoutSubscribersInputSchema: z.ZodTy
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -2390,6 +2423,7 @@ export const NewsletterTypeCreateManyUserInputSchema: z.ZodType<Prisma.Newslette
   id: z.string().uuid().optional(),
   title: z.string(),
   description: z.string().optional().nullable(),
+  key: z.string().optional().nullable(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   deletedAt: z.coerce.date().optional().nullable(),
@@ -2436,6 +2470,7 @@ export const NewsletterTypeUpdateWithoutUserInputSchema: z.ZodType<Prisma.Newsle
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -2447,6 +2482,7 @@ export const NewsletterTypeUncheckedUpdateWithoutUserInputSchema: z.ZodType<Pris
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
@@ -2458,6 +2494,7 @@ export const NewsletterTypeUncheckedUpdateManyWithoutUserInputSchema: z.ZodType<
   id: z.union([ z.string().uuid(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   title: z.union([ z.string(),z.lazy(() => StringFieldUpdateOperationsInputSchema) ]).optional(),
   description: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
+  key: z.union([ z.string(),z.lazy(() => NullableStringFieldUpdateOperationsInputSchema) ]).optional().nullable(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   deletedAt: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),

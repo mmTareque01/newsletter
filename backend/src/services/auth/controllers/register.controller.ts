@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { response } from "../../../response-config/response";
-import { hashPassword } from "../../../others/hash";
+import { hashPassword } from "../../../libs/hash";
 import { createUserRepo } from "../repository/register.repository";
 import {
   generateAccessToken,
   generateRefreshToken,
-} from "../../../others/tokenService";
+} from "../../../libs/tokenService";
 
 export const register = async (
   req: Request,

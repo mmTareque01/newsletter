@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { createNewsletterTypeRepo } from "../repository/create.type.repo";
-import { response } from "../../../../response-config/response";
+import { generateApiKey } from "../../../libs/key";
+import { response } from "../../../response-config/response";
 
 
 export const createNewsletterType = async (
@@ -15,7 +16,8 @@ export const createNewsletterType = async (
     const newType = await createNewsletterTypeRepo({
       title,
       description,
-      userId: req.body.user.id,
+      userId: req.user.id,
+      key: generateApiKey(),
     });
 
     response.ER201(res, newType, "Newsletter type created successfully");
@@ -23,4 +25,3 @@ export const createNewsletterType = async (
     next(error);
   }
 };
-

@@ -66,20 +66,21 @@ interface UserPayload {
 }
 
 export const verifyAccessToken = (token: string | null): UserPayload => {
-  const SECRET = process.env.JWT_SECRET || "";
+  const SECRET = process.env.ACCESS_TOKEN_SECRET || "";
 
   if (!token) {
-    throw new CustomError("ER400", "Access token missing");
+    throw new CustomError("ER400", "Unauthorized user");
   }
 
   try {
     const decoded = jwt.verify(token, SECRET) as UserPayload;
     return decoded;
   } catch (err) {
+    console.log({err})
     if (err instanceof jwt.TokenExpiredError) {
-      throw new CustomError("ER400", "Access token expired");
+      throw new CustomError("ER400", "Unauthorized user");
     } else if (err instanceof jwt.JsonWebTokenError) {
-      throw new CustomError("ER400", "Invalid access token");
+      throw new CustomError("ER400", "Unauthorized user");
     } else {
       throw err;
     }

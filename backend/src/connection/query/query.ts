@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { create } from "domain";
 
 export const extendedPrisma = (prisma: PrismaClient) => {
   return prisma.$extends({
@@ -21,7 +22,7 @@ export const extendedPrisma = (prisma: PrismaClient) => {
             pageSize = 10,
             where,
             include,
-            orderBy,
+            orderBy = { createdAt: "desc" },
           } = options;
           const skip = (pageNo - 1) * pageSize;
 

@@ -1,7 +1,7 @@
 // middlewares/authMiddleware.ts
 import { Request, Response, NextFunction } from "express";
-import { CustomError } from "../others/errors";
-import { verifyAccessToken } from "../others/tokenService";
+import { CustomError } from "../libs/errors";
+import { verifyAccessToken } from "../libs/tokenService";
 
 // export const authenticate = (
 //   req: Request,
@@ -37,16 +37,17 @@ export const authenticate = (
   const token = authHeader?.startsWith("Bearer ")
     ? authHeader.split(" ")[1]
     : null;
-
+  console.log({ authHeader, token });
+  //   const token = '';
   try {
     const validatedUser = verifyAccessToken(token || "");
 
     if (!validatedUser) {
       return next(new CustomError("ER401", "Unauthorized user"));
+    } else {
+      req.user = validatedUser as UserType;
+      next();
     }
-
-    req.user = validatedUser;
-    next();
   } catch (error) {
     next(error);
   }
