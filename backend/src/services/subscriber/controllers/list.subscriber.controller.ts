@@ -13,7 +13,8 @@ export const getAllSubscribers = async (
 
     const { data, total, totalPages } = await getAllSubscribersRepo(
       pageNo,
-      pageSize
+      pageSize,
+      req.user.id
     );
 
     response.ER200Paginate(
