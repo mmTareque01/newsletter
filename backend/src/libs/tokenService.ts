@@ -16,24 +16,44 @@ export function generateRefreshToken(user: UserType) {
   });
 }
 
-export const verifyRefreshToken = (token: string | null) => {
+
+export const verifyRefreshToken = (token: string | null): TokenInfo | void=> {
   const SECRET = process.env.REFRESH_TOKEN_SECRET || "";
 
-  if (!token) throw new CustomError("ER400", "Access token expired");
+  if (!token) throw new CustomError("ER401", "Access token expired");
 
-  jwt.verify(token, SECRET, (err, user) => {
-    // if (err) return false;
+  try {
+    const user = jwt.verify(token, SECRET) as UserType;
 
-    if (!err) return user as UserType;
+    const authUser = {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName || null,
+      lastName: user.lastName || null,
+    } as UserType;
 
+    const accessToken = generateAccessToken(authUser);
+    const refreshToken = generateRefreshToken(authUser);
+
+    console.log({ accessToken, refreshToken, authUser });
+
+    return {
+      accessToken,
+      refreshToken,
+      user: authUser,
+    };
+  } catch (err) {
     if (err instanceof jwt.TokenExpiredError) {
-      throw new CustomError("ER400", "Access token expired");
+      console.log({ err, name: "TokenExpiredError" });
+      throw new CustomError("ER401", "Access token expired");
     } else if (err instanceof jwt.JsonWebTokenError) {
-      throw new CustomError("ER400", "Invalid Access token");
+      console.log({ err, name: "JsonWebTokenError" });
+      throw new CustomError("ER401", "Invalid Access token");
     } else {
-      throw new Error(err);
+      console.log({ err, name: "Unknown JWT Error" });
+      // return null;
     }
-  });
+  }
 };
 
 // export const verifyAccessToken = (token: string | null) => {
@@ -55,7 +75,6 @@ export const verifyRefreshToken = (token: string | null) => {
 //   });
 // };
 
-
 // import jwt from "jsonwebtoken";
 // import { CustomError } from "./errors"; // adjust the path as needed
 
@@ -69,18 +88,18 @@ export const verifyAccessToken = (token: string | null): UserPayload => {
   const SECRET = process.env.ACCESS_TOKEN_SECRET || "";
 
   if (!token) {
-    throw new CustomError("ER400", "Unauthorized user");
+    throw new CustomError("ER401", "Unauthorized user");
   }
 
   try {
     const decoded = jwt.verify(token, SECRET) as UserPayload;
     return decoded;
   } catch (err) {
-    console.log({err})
+    console.log({ err });
     if (err instanceof jwt.TokenExpiredError) {
-      throw new CustomError("ER400", "Unauthorized user");
+      throw new CustomError("ER401", "Unauthorized user");
     } else if (err instanceof jwt.JsonWebTokenError) {
-      throw new CustomError("ER400", "Unauthorized user");
+      throw new CustomError("ER401", "Unauthorized user");
     } else {
       throw err;
     }

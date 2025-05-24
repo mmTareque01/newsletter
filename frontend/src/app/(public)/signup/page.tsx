@@ -5,7 +5,6 @@ import OrBorder from "@/components/OrBorder";
 import SocialLogin from "@/components/SocialLogin";
 import {
   SignUpFormFields,
-  SignUpFormValues,
   SignUpTitle,
   SignUptoSignIn,
 } from "@/constants/auth";

@@ -29,8 +29,8 @@ export function useAuthApi() {
         },
       });
 
-      if (authData) {
-        setRefreshToken(authData?.data?.accessToken); //need to resolve it
+      if (authData?.data) {
+        setRefreshToken(authData.data.accessToken); //need to resolve it
         // console.log(authData?.data?.accessToken)
         router.push("/dashboard");
 

@@ -6,13 +6,7 @@ export async function apiClient<T>(
   endpoint: string,
   options: ApiRequestOptions = {}
 ): Promise<ApiResponse<T>> {
-  const {
-    method = "GET",
-    headers = {},
-    data,
-    params,
-    cache,
-  } = options;
+  const { method = "GET", headers = {}, data, params, cache } = options;
 
   const config: AxiosRequestConfig = {
     method,
@@ -27,10 +21,14 @@ export async function apiClient<T>(
 
   try {
     const response = await axiosClient(config);
+      const newToken =
+        response?.headers
+    console.log({ response: newToken });
     return {
       data: response.data as T,
       error: null,
       status: response.status,
+      headers: response.headers as Record<string, string>, // 👈 cast to expected type
     };
   } catch (error: unknown) {
     // return {
@@ -44,12 +42,14 @@ export async function apiClient<T>(
         data: null,
         error: error.response?.data?.message || error.message,
         status: error.response?.status || 500,
+        headers: error.response?.headers as Record<string, string> || {},
       };
     } else {
       return {
         data: null,
         error: "An unknown error occurred",
         status: 500,
+        headers: {},
       };
     }
   }

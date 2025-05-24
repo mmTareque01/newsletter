@@ -3,34 +3,30 @@ import Form from "@/components/form/Form";
 import { Table } from "@/components/table/index";
 import { Title } from "@/components/typography";
 import { NewsletterTypeFields } from "@/constants/newsletter";
-import { NewsletterType } from "@/types/newsletter";
-import { useState, ChangeEvent, FormEvent } from "react";
+// import { NewsletterType } from "@/types/newsletter";
+import { useState, FormEvent } from "react";
 import { RxCross2 } from "react-icons/rx";
 import Modal from '@/components/Modal'
 
 export default function NewsletterTypePage() {
-  const [newsletterTypes, setNewsletterTypes] = useState<NewsletterType[]>([]);
-  const [form, setForm] = useState<NewsletterType>({
-    title: "",
-    description: "",
-  });
+  // const [newsletterTypes, setNewsletterTypes] = useState<NewsletterType[]>([]);
+  // const [form, setForm] = useState<NewsletterType>({
+  //   title: "",
+  //   description: "",
+  // });
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
+
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     // e.preventDefault();
-    if (form.title && form.description) {
-      setNewsletterTypes([...newsletterTypes, form]);
-      setForm({ title: "", description: "" });
-      setModalOpen(false);
-    }
-    console.log(form);
+    console.log("Form submitted:", e);
+    // if (form.title && form.description) {
+    //   setNewsletterTypes([...newsletterTypes, form]);
+    //   setForm({ title: "", description: "" });
+    //   setModalOpen(false);
+    // }
+    // console.log(form);
   };
 
   const newsletter = [

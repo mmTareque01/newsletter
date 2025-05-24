@@ -40,6 +40,7 @@ app.use( (req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, PATCH");
   res.header("Access-Control-Allow-Headers", "true");
+  res.setHeader("Access-Control-Expose-Headers", "authorization"); // 👈 Add this!
 
   next();
 });

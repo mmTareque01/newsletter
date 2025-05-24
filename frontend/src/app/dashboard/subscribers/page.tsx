@@ -1,11 +1,14 @@
 "use client";
 import { Table } from "@/components/table/index";
 import { Title } from "@/components/typography";
+import { useSubscribers } from "@/hooks/callAPI.tsx/useSubscriber";
+import { useEffect } from "react";
 // import { useState } from "react";
 
 export default function SubscribersPage() {
   // const [currentPage, setCurrentPage] = useState(1);
   // const itemsPerPage = 10;
+  const {handleGetSubscribers} = useSubscribers()
 
   // Example data
   const subscribers = [
@@ -142,6 +145,10 @@ export default function SubscribersPage() {
       ),
     },
   ];
+
+  useEffect(()=>{
+    handleGetSubscribers()
+  },[])
 
   return (
     <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg">
