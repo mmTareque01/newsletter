@@ -40,7 +40,7 @@ export function useApi() {
       const newToken =
         response?.headers?.["authorization"] 
         // ||
-        console.log({newToken})
+        // console.log({newToken})
         // response.headers?.["Authorization"];
       if (newToken?.startsWith("Bearer ")) {
         const token = newToken.split(" ")[1];

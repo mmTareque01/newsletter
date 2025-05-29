@@ -6,3 +6,7 @@ export const Logout = '/auth/logout'
 
 // subscribers
 export const Subscribers = '/subscriber'
+
+
+// newsletters
+export const NewsletterTypes = '/newsletter/type'

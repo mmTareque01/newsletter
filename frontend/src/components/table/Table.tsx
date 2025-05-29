@@ -11,11 +11,13 @@ interface TableColumn<T> {
 interface TableProps<T extends Record<string, unknown>> {
   data?: T[];
   columns: Array<TableColumn<T>>;
+  onClickRow?: (row: T) => void;
 }
 
 export default function Table<T extends Record<string, unknown>>({
   data = [],
   columns,
+  onClickRow,
 }: TableProps<T>) {
   return (
     <div className="overflow-x-auto bg-white rounded-lg shadow">
@@ -42,14 +44,15 @@ export default function Table<T extends Record<string, unknown>>({
                     ? "bg-white"
                     : "bg-brand-50 hover:bg-gray-100"
                 }
+                onClick={() => { onClickRow && onClickRow(row) }}
               >
                 {columns.map((column) => {
                   // Safely get the cell value
                   const cellValue = column.render
                     ? column.render(row)
                     : column.key in row
-                    ? (row[column.key as keyof T] as React.ReactNode)
-                    : null;
+                      ? (row[column.key as keyof T] as React.ReactNode)
+                      : null;
 
                   return (
                     <td

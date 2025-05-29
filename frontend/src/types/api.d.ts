@@ -1,3 +1,5 @@
+import { NewsletterType } from "./newsletter";
+
 // lib/api/types.ts
 export interface ApiResponse<T> {
   data?: T | null;
@@ -22,7 +24,7 @@ export interface ApiRequestOptions {
     password?: string;
     firstName?: string;
     lastName?: string;
-  };
+  } | NewsletterType;
   params?: {
     pageNumber: number;
     pageSize: number;

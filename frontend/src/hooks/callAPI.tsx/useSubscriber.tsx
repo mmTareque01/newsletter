@@ -5,10 +5,12 @@ import { Subscribers } from "@/apis/apisEndpoint";
 import { useAppStore } from "@/stores/app.store";
 // import { useRouter } from "next/navigation";
 import { useApi } from "../useAPI";
+import { useSubscribersStore } from "@/stores/subscribers.store";
 
 export function useSubscribers() {
   const { callApi } = useApi();
-  const { refreshToken } = useAppStore();
+  const {setSubscribers} = useSubscribersStore();
+  // const { refreshToken } = useAppStore();
   //   const router = useRouter();
   //   const { setRefreshToken } = useAppStore();
 
@@ -16,6 +18,8 @@ export function useSubscribers() {
     const subscribers = await callApi(Subscribers, { method: "GET" });
     if (subscribers) {
       //   router.push("/signin");
+      setSubscribers(subscribers?.data || []);
+
     }
   };
 

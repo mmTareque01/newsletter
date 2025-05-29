@@ -23,7 +23,7 @@ export async function apiClient<T>(
     const response = await axiosClient(config);
       const newToken =
         response?.headers
-    console.log({ response: newToken });
+    // console.log({ response: newToken });
     return {
       data: response.data as T,
       error: null,
