@@ -26,7 +26,7 @@ export const QueryModeSchema = z.enum(['default','insensitive']);
 
 export const NullsOrderSchema = z.enum(['first','last']);
 
-export const SubscriberStatusSchema = z.enum(['ACTIVE','INACTIVE','UNSUBSCRIBED']);
+export const SubscriberStatusSchema = z.enum(['ACTIVE','INACTIVE','UNSUBSCRIBED','BLOCKED']);
 
 export type SubscriberStatusType = `${z.infer<typeof SubscriberStatusSchema>}`
 

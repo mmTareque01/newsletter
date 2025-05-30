@@ -1,5 +1,10 @@
 import express from "express";
-import { createSubscriber, getAllSubscribers } from "./controllers";
+import {
+  createSubscriber,
+  deleteSubscriber,
+  getAllSubscribers,
+  updateSubscriber,
+} from "./controllers";
 import { validate } from "../../middleware/validation";
 import { createSubscriberSchema } from "../../validation/subscriber.validation";
 import { apiKeyAuth } from "../../middleware/apiKeyAuth";
@@ -10,6 +15,10 @@ export const publicSubscribe = express.Router();
 subscriber.get("/", getAllSubscribers);
 // subscriber.get("/:id", getAllSubscribers);
 subscriber.post("/", validate(createSubscriberSchema), createSubscriber);
+subscriber.put("/:id", updateSubscriber);
+// subscriber.get("/", validate(createSubscriberSchema), createSubscriber);
+subscriber.delete("/:id", deleteSubscriber);
+
 publicSubscribe.post(
   "/newsletter/subscribe",
   [apiKeyAuth, validate(createSubscriberSchema)],

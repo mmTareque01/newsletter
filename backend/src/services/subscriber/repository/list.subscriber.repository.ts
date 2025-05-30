@@ -10,6 +10,16 @@ export const getAllSubscribersRepo = async (
     pageNo: pageNo,
     pageSize: pageSize,
     where: { status: "ACTIVE", userId },
+    // select:{
+    //   id: true,
+    // }
+    // select:{
+    //   id: true,
+    //   email: true,
+    //   name: true,
+    //   status: true,
+    //   createdAt: true,
+    // }
     // orderBy: { createdAt: 'desc' },
   });
 };

@@ -18,6 +18,7 @@ enum SubscriberStatus {
   ACTIVE
   INACTIVE
   UNSUBSCRIBED
+  BLOCKED
 }
 
 enum NewsletterTypeStatus {

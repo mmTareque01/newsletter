@@ -14,6 +14,7 @@ export const extendedPrisma = (prisma: PrismaClient) => {
             where?: any;
             include?: A extends { include?: infer I } ? I : never;
             orderBy?: A extends { orderBy?: infer O } ? O : never;
+                  // select?: A['select'];
           } = {}
         ) {
           const context = this as any;
@@ -30,11 +31,54 @@ export const extendedPrisma = (prisma: PrismaClient) => {
             context.findMany({
               skip,
               take: pageSize,
-              where,
+              where: { deletedAt: null, ...where },
               include,
               orderBy,
             }),
-            context.count({ where }),
+            context.count({ where: { deletedAt: null, ...where } }),
+          ]);
+
+          return {
+            data,
+            total,
+            pageNo,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+          };
+        },
+
+        async paginate_x<T, A>(
+          this: T,
+          options: {
+            pageNo?: number;
+            pageSize?: number;
+            where?: any;
+            include?: A extends { include?: infer I } ? I : never;
+            orderBy?: A extends { orderBy?: infer O } ? O : never;
+            select?: A extends { select?: infer S } ? S : never;
+          } = {}
+        ) {
+          const context = this as any;
+          const {
+            pageNo = 1,
+            pageSize = 10,
+            where,
+            include,
+            orderBy = { createdAt: "desc" },
+            select,
+          } = options;
+          const skip = (pageNo - 1) * pageSize;
+
+          const [data, total] = await Promise.all([
+            context.findMany({
+              skip,
+              take: pageSize,
+              where: { deletedAt: null, ...where },
+              include,
+              orderBy,
+              select,
+            }),
+            context.count({ where: { deletedAt: null, ...where } }),
           ]);
 
           return {

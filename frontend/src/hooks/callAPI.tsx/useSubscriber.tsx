@@ -2,17 +2,14 @@
 "use client";
 
 import { Subscribers } from "@/apis/apisEndpoint";
-import { useAppStore } from "@/stores/app.store";
-// import { useRouter } from "next/navigation";
 import { useApi } from "../useAPI";
 import { useSubscribersStore } from "@/stores/subscribers.store";
+import { SubscriberType } from "@/types/subscribers";
 
 export function useSubscribers() {
   const { callApi } = useApi();
-  const {setSubscribers} = useSubscribersStore();
-  // const { refreshToken } = useAppStore();
-  //   const router = useRouter();
-  //   const { setRefreshToken } = useAppStore();
+  const { setSubscribers } = useSubscribersStore();
+
 
   const handleGetSubscribers = async () => {
     const subscribers = await callApi(Subscribers, { method: "GET" });
@@ -23,17 +20,17 @@ export function useSubscribers() {
     }
   };
 
-  const handleUpdateSubscriber = async () => {
-    const subscribers = await callApi(Subscribers, { method: "GET" });
+  const handleUpdateSubscriber = async (id: string, data: SubscriberType) => {
+    const subscribers = await callApi(`${Subscribers}/${id}`, { method: "PUT", data });
     if (subscribers) {
-      //   router.push("/signin");
+      handleGetSubscribers();
     }
   };
 
-  const handleDeleteSubscriber = async () => {
-    const subscribers = await callApi(Subscribers, { method: "GET" });
+  const handleDeleteSubscriber = async (id: string) => {
+    const subscribers = await callApi(`${Subscribers}/${id}`, { method: "DELETE" });
     if (subscribers) {
-      //   router.push("/signin");
+      handleGetSubscribers();
     }
   };
 

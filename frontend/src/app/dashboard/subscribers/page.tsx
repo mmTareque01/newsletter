@@ -5,14 +5,12 @@ import { Title } from "@/components/typography";
 import { useSubscribers } from "@/hooks/callAPI.tsx/useSubscriber";
 import { formatTime } from "@/libs/timeConvertion";
 import { useSubscribersStore } from "@/stores/subscribers.store";
-import { format } from "path";
 import { useEffect } from "react";
-import { MdBlock, MdOutlineBookmarkRemove } from "react-icons/md";
 
 export default function SubscribersPage() {
   // const [currentPage, setCurrentPage] = useState(1);
   // const itemsPerPage = 10;
-  const { handleGetSubscribers } = useSubscribers()
+  const { handleGetSubscribers, handleUpdateSubscriber, handleDeleteSubscriber } = useSubscribers()
   const { subscribers } = useSubscribersStore();
 
 
@@ -54,15 +52,17 @@ export default function SubscribersPage() {
   }, [])
 
 
+
+
   const generateRows = () => {
     return subscribers.map((subscriber) => ({
       ...subscriber,
       createdAt: formatTime(subscriber.createdAt).localeDate,
       action: (
         <div className="flex justify-center space-x-2">
-          <DeleteIcon onClick={() => { }} />
-          <BlockIcon />
-          <UnsubscribeIcon />
+          <DeleteIcon onClick={() => { handleDeleteSubscriber(subscriber.id) }} />
+          <BlockIcon onClick={() => { handleUpdateSubscriber(subscriber.id, { status: 'blocked' }) }} />
+          <UnsubscribeIcon onClick={() => { handleUpdateSubscriber(subscriber.id, { status: 'unsubscribe' }) }} />
 
         </div>
       )
