@@ -20,6 +20,7 @@ export const authenticate = (
     const validatedUser = verifyAccessToken(token || "");
 
     if (!validatedUser) {
+      //logout user
       return next(new CustomError("ER401", "Unauthorized user"));
     } else {
       req.user = validatedUser as UserType;
@@ -49,8 +50,8 @@ export const authenticate = (
       const tokenInfo = verifyRefreshToken(token);
       console.log({ tokenInfo });
       if (!tokenInfo) {
-        //  console.trace()
-          console.log(3)
+        // logout user
+        
         return next(error);
       }
       //  console.trace()
@@ -62,7 +63,8 @@ export const authenticate = (
 
       // return next(error);
     } else {
-       console.trace()
+      //  logout user
+      
       next(error);
     }
   }

@@ -24,6 +24,9 @@ export function errorHandler(
   const message = error.message || "Internal Server Error";
 
   if (error instanceof CustomError && error.statusCode in response) {
+    if (error.statusCode === "ER401") {
+      response.setRefreshToken(res, null, 0);
+    }
     response[error.statusCode](res, error.details, error.message);
   } else {
     response.ER500(res, message);
