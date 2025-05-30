@@ -40,9 +40,9 @@ export default function Table<T extends Record<string, unknown>>({
               <tr
                 key={rowIndex}
                 className={
-                  rowIndex % 2 === 0
+                 `${ rowIndex % 2 === 0
                     ? "bg-white"
-                    : "bg-brand-50 hover:bg-gray-100"
+                    : "bg-brand-50 hover:bg-gray-100"} ${onClickRow && "cursor-pointer"}`
                 }
                 onClick={() => { onClickRow && onClickRow(row) }}
               >

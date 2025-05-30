@@ -26,6 +26,14 @@ export function useNewsletter() {
     }
   };
 
+  const handleUpdateNewsletterType = async (id: string, data: NewsletterType) => {
+    const newsletterTypes = await callApi(`${NewsletterTypes}/${id}`, { method: "PUT", data }, "Type updated successfully");
+    if (newsletterTypes) {
+      // setNewsletterTypes(newsletterTypes?.data || []);
+      handleGetNewsletter();
+    }
+  };
+
   const handleDeleteNewsletterType = async (id: string) => {
     const newsletterTypes = await callApi(`${NewsletterTypes}/${id}`, { method: "DELETE" }, "Type deleted successfully");
     if (newsletterTypes) {
@@ -37,7 +45,8 @@ export function useNewsletter() {
   return {
     handleGetNewsletter,
     handleCreateNewsletterType,
-    handleDeleteNewsletterType
+    handleDeleteNewsletterType,
+    handleUpdateNewsletterType
     // handleUpdateSubscriber,
     // handleDeleteSubscriber,
   };

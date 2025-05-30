@@ -13,15 +13,15 @@ import { useNewsletterTypesStore } from "@/stores/newsletterTypes.store";
 import { NewsletterType } from "@/types/newsletter";
 import { MdOutlineDelete } from "react-icons/md";
 import ConfirmModal from "@/components/modals/ConfirmModal";
-import { time } from "console";
 import { formatTime } from "@/libs/timeConvertion";
 
 export default function NewsletterTypePage() {
-  const { handleGetNewsletter, handleCreateNewsletterType, handleDeleteNewsletterType } = useNewsletter();
+  const { handleGetNewsletter, handleCreateNewsletterType, handleDeleteNewsletterType, handleUpdateNewsletterType } = useNewsletter();
   const { newsletterTypes } = useNewsletterTypesStore();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [selectedNewsletterType, setSelectedNewsletterType] = useState<NewsletterType | null>(null);
+  const [updateType, setUpdateType] = useState<boolean>(false);
 
 
 
@@ -30,23 +30,40 @@ export default function NewsletterTypePage() {
     handleGetNewsletter();
   }, []);
 
-  const handleSubmit = (e: NewsletterType) => {
-    // e.preventDefault();
-    // console.log("Form submitted:", e);
-    const { title, description } = e;
-    handleCreateNewsletterType({
-      description: description,
-      title: title,
-    } as NewsletterType)
-      .then((res) => {
-        console.log("res", res);
-        setModalOpen(false);
-      })
-      .catch((error) => {
-        console.error("Error creating newsletter type:", error);
-      });
-    // setModalOpen(false);
+  const handleSubmit = (data: NewsletterType) => {
+    const { title, description } = data;
+    if (updateType && selectedNewsletterType?.id) {
+      handleUpdateNewsletterType(selectedNewsletterType.id, {
+        description: description,
+        title: title,
+      } as NewsletterType)
+        .then((res) => {
+          console.log("res", res);
+          setModalOpen(false);
+        })
+        .catch((error) => {
+          console.error("Error updating newsletter type:", error);
+        }).finally(() => {
+          setUpdateType(false);
+          setSelectedNewsletterType(null);
+        }
+      );
+    }
+    else {
+      handleCreateNewsletterType({
+        description: description,
+        title: title,
+      } as NewsletterType)
+        .then((res) => {
+          console.log("res", res);
+          setModalOpen(false);
+        })
+        .catch((error) => {
+          console.error("Error creating newsletter type:", error);
+        });
+    }
   };
+
 
   const handleDelete = () => {
     handleDeleteNewsletterType(selectedNewsletterType?.id as string)
@@ -69,7 +86,8 @@ export default function NewsletterTypePage() {
             color="red"
             cursor={'pointer'}
             size={20}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setSelectedNewsletterType(item as NewsletterType);
               setDeleteModalOpen(true)
 
@@ -79,7 +97,6 @@ export default function NewsletterTypePage() {
       createdAt: formatTime(item.createdAt as string).localeDate,
     }));
   };
-
 
   return (
     <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg">
@@ -93,29 +110,25 @@ export default function NewsletterTypePage() {
         </button>
       </div>
 
-      <Table data={generateRows()} columns={columns} 
-      // onClickRow={(data as NewsletterType)}
-      
+      <Table data={generateRows()} columns={columns}
+        onClickRow={(data) => {
+          console.log(data)
+          setUpdateType(true);
+          setSelectedNewsletterType(data as NewsletterType);
+          setModalOpen(true);
+
+        }}
       />
 
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-        <div className="bg-white rounded-lg w-full max-w-md p-6 relative">
-          <Title className="mb-4"> New Newsletter Types </Title>
+      <NewsletterTypeForm
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        handleSubmit={handleSubmit}
+        data={selectedNewsletterType}
+        updateType={updateType}
+      />
 
-          <button
-            className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-red-500"
-            onClick={() => setModalOpen(false)}
-          >
-            <RxCross2 />
-          </button>
 
-          <Form
-            fields={NewsletterTypeFields}
-            submitText="Create"
-            onSubmit={handleSubmit}
-          />
-        </div>
-      </Modal>
 
       <ConfirmModal
         modalOpen={deleteModalOpen}
@@ -124,6 +137,46 @@ export default function NewsletterTypePage() {
       />
     </div>
   );
+}
+
+const NewsletterTypeForm = ({ modalOpen, setModalOpen, handleSubmit, data, updateType = false }:
+  {
+    modalOpen: boolean;
+    setModalOpen: (open: boolean) => void;
+    handleSubmit: (data: NewsletterType) => void;
+    data?: NewsletterType | null;
+    updateType?: boolean;
+  }
+) => {
+  // console.log({ data, updateType })
+
+  const fileds = NewsletterTypeFields?.map((field) => ({
+    ...field,
+    defaultValue: (updateType && data) ? (
+      data[field.name as keyof NewsletterType]
+    ) : "",
+  }))
+
+  return (
+    <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+      <div className="bg-white rounded-lg w-full max-w-md p-6 relative">
+        <Title className="mb-4"> New Newsletter Types </Title>
+
+        <button
+          className="absolute top-2 right-2 text-2xl text-gray-500 hover:text-red-500"
+          onClick={() => setModalOpen(false)}
+        >
+          <RxCross2 />
+        </button>
+
+        <Form
+          fields={fileds}
+          submitText={updateType ? "Update" : "Create"}
+          onSubmit={handleSubmit}
+        />
+      </div>
+    </Modal>
+  )
 }
 
 const columns = [
