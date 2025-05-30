@@ -20,35 +20,32 @@ interface NewsletterTypesState {
   getNewsletterTypeById: (id: string) => NewsletterType | undefined;
 }
 
-export const useNewsletterTypesStore = create<NewsletterTypesState>((set, get) => ({
-  newsletterTypes: [],
-  
-  // Set the entire newsletter types array
-  setNewsletterTypes: (types) => set({ newsletterTypes: types }),
-  
-  // Add a single newsletter type
-  addNewsletterType: (type) => 
-    set((state) => ({ 
-      newsletterTypes: [...state.newsletterTypes, type] 
-    })),
-  
-  // Remove a newsletter type by ID
-  removeNewsletterType: (id) => 
-    set((state) => ({
-      newsletterTypes: state.newsletterTypes.filter((type) => type.id !== id),
-    })),
-  
-  // Update an existing newsletter type
-  updateNewsletterType: (updatedType) => 
-    set((state) => ({
-      newsletterTypes: state.newsletterTypes.map((type) => 
-        type.id === updatedType.id ? updatedType : type
-      ),
-    })),
-  
-  // Get a single newsletter type by ID (without causing state updates)
-  getNewsletterTypeById: (id) => {
-    const state = get();
-    return state.newsletterTypes.find((type) => type.id === id);
-  }
-}));
+export const useNewsletterTypesStore = create<NewsletterTypesState>(
+  (set, get) => ({
+    newsletterTypes: [],
+
+    setNewsletterTypes: (types) => set({ newsletterTypes: types }),
+
+    addNewsletterType: (type) =>
+      set((state) => ({
+        newsletterTypes: [...state.newsletterTypes, type],
+      })),
+
+    removeNewsletterType: (id) =>
+      set((state) => ({
+        newsletterTypes: state.newsletterTypes.filter((type) => type.id !== id),
+      })),
+
+    updateNewsletterType: (updatedType) =>
+      set((state) => ({
+        newsletterTypes: state.newsletterTypes.map((type) =>
+          type.id === updatedType.id ? updatedType : type
+        ),
+      })),
+
+    getNewsletterTypeById: (id) => {
+      const state = get();
+      return state.newsletterTypes.find((type) => type.id === id);
+    },
+  })
+);

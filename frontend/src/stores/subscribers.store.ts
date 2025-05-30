@@ -1,6 +1,19 @@
 import {create} from "zustand";
 
-export interface Subscriber {
+// export interface Subscriber {
+//   id: string;
+//   email: string;
+//   name: string | null;
+//   phone: string | null;
+//   createdAt: string;
+//   updatedAt: string;
+//   deletedAt: string | null;
+//   status: string;
+//   userId: string;
+//   newsletterTypeId: string;
+// }
+
+export interface Subscriber extends Record<string, unknown> {
   id: string;
   email: string;
   name: string | null;
@@ -12,7 +25,6 @@ export interface Subscriber {
   userId: string;
   newsletterTypeId: string;
 }
-
 interface SubscribersState {
   subscribers: Subscriber[];
   setSubscribers: (subs: Subscriber[]) => void;

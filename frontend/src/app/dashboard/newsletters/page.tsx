@@ -11,7 +11,7 @@ import Modal from "@/components/modals";
 import { useNewsletter } from "@/hooks/callAPI.tsx/useNewsletter";
 import { useNewsletterTypesStore } from "@/stores/newsletterTypes.store";
 import { NewsletterType } from "@/types/newsletter";
-import { MdOutlineDelete } from "react-icons/md";
+import { DeleteIcon } from "@/components/buttons/Icon.button";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import { formatTime } from "@/libs/timeConvertion";
 
@@ -47,7 +47,7 @@ export default function NewsletterTypePage() {
           setUpdateType(false);
           setSelectedNewsletterType(null);
         }
-      );
+        );
     }
     else {
       handleCreateNewsletterType({
@@ -82,16 +82,12 @@ export default function NewsletterTypePage() {
       ...item,
       action: (
         <div className="flex justify-center gap-4">
-          <MdOutlineDelete
-            color="red"
-            cursor={'pointer'}
-            size={20}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedNewsletterType(item as NewsletterType);
-              setDeleteModalOpen(true)
 
-            }} />
+
+          <DeleteIcon onClick={() => {
+            setSelectedNewsletterType(item as NewsletterType);
+            setDeleteModalOpen(true)
+          }} />
         </div>
       ),
       createdAt: formatTime(item.createdAt as string).localeDate,
