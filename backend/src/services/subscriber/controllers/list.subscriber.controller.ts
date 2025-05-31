@@ -20,9 +20,10 @@ export const getAllSubscribers = async (
     response.ER200Paginate(
       res,
       data,
-      totalPages,
+      total,
       pageNo,
       pageSize,
+      totalPages,
       "Subscribers retrieved successfully"
     );
   } catch (error) {

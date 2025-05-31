@@ -20,9 +20,10 @@ export const getNewsletterTypeList = async (
     response.ER200Paginate(
       res,
       data,
-      totalPages,
+      total,
       pageNo,
       pageSize,
+      totalPages,
       "Newsletter's type retrieved successfully"
     );
   } catch (error) {

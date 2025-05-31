@@ -13,6 +13,7 @@ interface ResponseOptions {
   extraData?: any;
   paginate?: {
     totalData: number;
+    totalPage: number;
     pageNo: number;
     pageSize: number;
     next?: string;
@@ -77,8 +78,10 @@ export class ResponseConfig {
     if (paginate) {
       responseData.paginate = {
         totalData: paginate.totalData,
+        totalPage: paginate.totalPage,
         pageNo: paginate.pageNo,
-        totalPage: Math.ceil(paginate.totalData / paginate.pageSize),
+        pageSize: paginate.pageSize,
+        // totalPage: Math.ceil(paginate.totalData / paginate.pageSize),
         next: paginate.next || this.baseUrl,
         previous: paginate.previous || this.baseUrl,
       };
@@ -100,7 +103,7 @@ export class ResponseConfig {
   //   });
   // }
 
-  public setRefreshToken(res: Response, refreshToken: string|null, age = 7) {
+  public setRefreshToken(res: Response, refreshToken: string | null, age = 7) {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // Only secure in production
@@ -137,6 +140,7 @@ export class ResponseConfig {
     totalData: number,
     pageNo: number,
     pageSize: number,
+    totalPage: number,
     message = "Retrieved successfully"
   ): Response {
     return this.createResponse(res, {
@@ -145,6 +149,7 @@ export class ResponseConfig {
       message,
       paginate: {
         totalData,
+        totalPage,
         pageNo,
         pageSize,
       },

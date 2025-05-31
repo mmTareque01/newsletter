@@ -17,14 +17,16 @@ import { formatTime } from "@/libs/timeConvertion";
 
 export default function NewsletterTypePage() {
   const { handleGetNewsletter, handleCreateNewsletterType, handleDeleteNewsletterType, handleUpdateNewsletterType } = useNewsletter();
-  const { newsletterTypes } = useNewsletterTypesStore();
+  const { newsletterTypes, newsletterPagination, setNewsletterPagination } = useNewsletterTypesStore();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
   const [selectedNewsletterType, setSelectedNewsletterType] = useState<NewsletterType | null>(null);
   const [updateType, setUpdateType] = useState<boolean>(false);
+  const [pageNo, setPageNo] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
 
 
-
+  // console.log({newsletterPagination})
 
   useEffect(() => {
     handleGetNewsletter();
@@ -108,11 +110,17 @@ export default function NewsletterTypePage() {
 
       <Table data={generateRows()} columns={columns}
         onClickRow={(data) => {
-          console.log(data)
           setUpdateType(true);
           setSelectedNewsletterType(data as NewsletterType);
           setModalOpen(true);
-
+        }}
+        paginate={newsletterPagination}
+        setPageNo={(pageNo) => {
+          // setNewsletterPagination({
+          //   ...newsletterPagination,
+          //   pageNo: pageNo,
+          // });
+          handleGetNewsletter(pageNo, pageSize);
         }}
       />
 

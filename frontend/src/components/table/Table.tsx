@@ -1,3 +1,4 @@
+import { PaginationParams } from "@/types/pagination";
 import { Text } from "../typography";
 import Pagination from "./Pagination";
 
@@ -12,13 +13,19 @@ interface TableProps<T extends Record<string, unknown>> {
   data?: T[];
   columns: Array<TableColumn<T>>;
   onClickRow?: (row: T) => void;
+  paginate: PaginationParams,
+  setPageNo?: (pageNo: number) => void;
 }
 
 export default function Table<T extends Record<string, unknown>>({
   data = [],
   columns,
   onClickRow,
+  paginate,
+  setPageNo
 }: TableProps<T>) {
+  const from = ((paginate.pageNo - 1) * paginate.pageSize + 1) || 1;
+  const to = (Math.min(paginate.pageNo * paginate.pageSize, paginate.totalData)) || 1;
   return (
     <div className="overflow-x-auto bg-white rounded-lg shadow">
       <table className="min-w-full divide-y divide-gray-200">
@@ -40,7 +47,7 @@ export default function Table<T extends Record<string, unknown>>({
               <tr
                 key={rowIndex}
                 className={
-                 `${ rowIndex % 2 === 0
+                  `${rowIndex % 2 === 0
                     ? "bg-white"
                     : "bg-brand-50 hover:bg-gray-100"} ${onClickRow && "cursor-pointer"}`
                 }
@@ -79,10 +86,12 @@ export default function Table<T extends Record<string, unknown>>({
       </table>
 
       <Pagination
-        from={1}
-        to={data.length}
-        total={data.length}
-        handleClick={(page: number) => console.log("Page clicked: ", page)}
+        from={from}
+        to={to}
+        total={paginate.totalData}
+        totalPage={paginate.totalPage}
+        currentPage={paginate.pageNo}
+        handleClick={setPageNo ? (page: number) => setPageNo(page) : () => { }}
       />
     </div>
   );
