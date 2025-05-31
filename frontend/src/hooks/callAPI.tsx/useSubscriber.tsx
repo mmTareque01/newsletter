@@ -5,17 +5,22 @@ import { Subscribers } from "@/apis/apisEndpoint";
 import { useApi } from "../useAPI";
 import { useSubscribersStore } from "@/stores/subscribers.store";
 import { SubscriberType } from "@/types/subscribers";
+import { generateURL } from "@/libs/generateURL";
 
 export function useSubscribers() {
   const { callApi } = useApi();
-  const { setSubscribers } = useSubscribersStore();
+  const { setSubscribers, setSubscribersPagination } = useSubscribersStore();
 
 
-  const handleGetSubscribers = async () => {
-    const subscribers = await callApi(Subscribers, { method: "GET" });
+  const handleGetSubscribers = async (pageNo: number = 1, pageSize: number = 10) => {
+    const subscribers = await callApi(generateURL(Subscribers, {
+      pageNo: pageNo,
+      pageSize: pageSize,
+    }), { method: "GET" });
     if (subscribers) {
       //   router.push("/signin");
       setSubscribers(subscribers?.data || []);
+      setSubscribersPagination(subscribers?.pagination || {});
 
     }
   };

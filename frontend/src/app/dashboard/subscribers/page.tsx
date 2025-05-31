@@ -11,7 +11,7 @@ export default function SubscribersPage() {
   // const [currentPage, setCurrentPage] = useState(1);
   // const itemsPerPage = 10;
   const { handleGetSubscribers, handleUpdateSubscriber, handleDeleteSubscriber } = useSubscribers()
-  const { subscribers } = useSubscribersStore();
+  const { subscribers, subscribersPagination } = useSubscribersStore();
 
 
   // console.log({subscribers})
@@ -74,7 +74,9 @@ export default function SubscribersPage() {
       {/* <h1 className="text-2xl font-bold text-black mb-6">Subscribers</h1> */}
       <Title className="mb-4">Subscribers List</Title>
 
-      <Table data={generateRows()} columns={columns} />
+      <Table data={generateRows()} columns={columns} paginate={subscribersPagination} setPageNo={(pageNo) => {
+        handleGetSubscribers(pageNo)
+      }} />
 
       {/* {totalPages > 1 && (
         <Pagination 

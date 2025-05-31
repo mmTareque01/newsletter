@@ -1,4 +1,5 @@
-import {create} from "zustand";
+import { PaginationParams } from "@/types/pagination";
+import { create } from "zustand";
 
 // export interface Subscriber {
 //   id: string;
@@ -30,12 +31,22 @@ interface SubscribersState {
   setSubscribers: (subs: Subscriber[]) => void;
   addSubscriber: (sub: Subscriber) => void;
   removeSubscriber: (id: string) => void;
+
+  subscribersPagination: PaginationParams;
+  setSubscribersPagination: (subscribersPagination: PaginationParams) => void;
 }
 
 export const useSubscribersStore = create<SubscribersState>((set) => ({
   subscribers: [],
+  subscribersPagination: {} as PaginationParams,
+
   setSubscribers: (subs) => set({ subscribers: subs }),
-  addSubscriber: (sub) => set((state) => ({ subscribers: [...state.subscribers, sub] })),
+  addSubscriber: (sub) =>
+    set((state) => ({ subscribers: [...state.subscribers, sub] })),
   removeSubscriber: (id) =>
-    set((state) => ({ subscribers: state.subscribers.filter((sub) => sub.id !== id) })),
+    set((state) => ({
+      subscribers: state.subscribers.filter((sub) => sub.id !== id),
+    })),
+  setSubscribersPagination: (pagination) =>
+    set({ subscribersPagination: pagination }),
 }));
