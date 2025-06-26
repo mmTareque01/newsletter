@@ -1,6 +1,6 @@
 
 import { ReactNode } from "react";
-import {  FaRegUser } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
 import { FiPieChart } from "react-icons/fi";
 import { IoMailOutline } from "react-icons/io5";
 import { LuLayoutDashboard, LuMails, LuPlug } from "react-icons/lu";
@@ -18,7 +18,7 @@ export const adminNavItems: NavItem[] = [
   {
     icon: <LuLayoutDashboard />,
     name: "Dashboard",
-     path: root 
+    path: root
     // subItems: [{ name: "Ecommerce", path: root, pro: false }],
   },
   // {
@@ -31,7 +31,7 @@ export const adminNavItems: NavItem[] = [
     name: "Campaigns",
     path: root + "/campaigns",
   },
-    {
+  {
     icon: <LuMails />, // <UserCircleIcon />,
     name: "Newsletters",
     path: root + "/newsletters",
@@ -39,7 +39,12 @@ export const adminNavItems: NavItem[] = [
   {
     icon: <TbUsers />, // <UserCircleIcon />,
     name: "Subscribers",
-    path: root + "/subscribers",
+    // path: root + "/subscribers",
+    subItems: [
+      { name: "List", path: root + "/subscribers", pro: false },
+      { name: "Import", path: root + "/import-subscribers", pro: false },
+      { name: "Invite", path: root + "/invite-to-subscribe", pro: false },
+    ],
   },
   {
     icon: <FaRegUser />, // <UserCircleIcon />,
