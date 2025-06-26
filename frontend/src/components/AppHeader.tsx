@@ -10,10 +10,12 @@ import { ThemeToggleButton } from "./ThemeToggleButton";
 import NotificationDropdown from "./NotificationDropdown";
 import UserDropdown from "./UserDropdown";
 import { useAppSettings } from "@/stores/app-settings-store";
+import { useAppStore } from "@/stores/app.store";
 
 const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
   const { toggleSidebar } = useAppSettings();
+  const { header } = useAppStore();
   // const { isMobileOpen } = useSidebar();
   const inputRef = useRef<HTMLInputElement>(null);
   const isMobileOpen = false;
@@ -127,7 +129,10 @@ const AppHeader = () => {
           </button>
 
           {/* Search Bar (Desktop) */}
-          <div className="hidden lg:block">
+
+
+
+          {/* <div className="hidden lg:block">
             <div className="relative">
               <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2">
                 <svg
@@ -157,14 +162,15 @@ const AppHeader = () => {
                 <span>K</span>
               </button>
             </div>
-          </div>
+          </div> */}
+
+          {header}
         </div>
 
         {/* Right Side Menu */}
         <div
-          className={`${
-            isApplicationMenuOpen ? "flex" : "hidden"
-          } w-full items-center justify-between gap-4 px-5 py-4 shadow-md lg:flex lg:justify-end lg:px-0 lg:shadow-none`}
+          className={`${isApplicationMenuOpen ? "flex" : "hidden"
+            } w-full items-center justify-between gap-4 px-5 py-4 shadow-md lg:flex lg:justify-end lg:px-0 lg:shadow-none`}
         >
           <div className="flex items-center gap-2 2xsm:gap-3">
             <ThemeToggleButton />
