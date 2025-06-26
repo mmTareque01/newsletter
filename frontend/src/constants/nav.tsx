@@ -18,7 +18,8 @@ export const adminNavItems: NavItem[] = [
   {
     icon: <LuLayoutDashboard />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: root, pro: false }],
+     path: root 
+    // subItems: [{ name: "Ecommerce", path: root, pro: false }],
   },
   // {
   //   icon: <MdOutlineCalendarMonth />, // <CalenderIcon />,
