@@ -10,11 +10,15 @@ export const getAllSubscribers = async (
   try {
     const pageNo = parseInt(req.query.pageNo as string) || 1;
     const pageSize = parseInt(req.query.pageSize as string) || 10;
+    const newsletterTypeId = req.query.newsletterTypeId as string;
+
+    console.log({ newsletterTypeId });
 
     const { data, total, totalPages } = await getAllSubscribersRepo(
       pageNo,
       pageSize,
-      req.user.id
+      req.user.id,
+      newsletterTypeId ? newsletterTypeId : null
     );
 
     response.ER200Paginate(

@@ -18,7 +18,7 @@ export default function SubscribersPage() {
   const { subscribers, subscribersPagination } = useSubscribersStore();
   const { setHeader } = useAppStore();
   const { handleGetAllNewsletterTypes } = useNewsletter();
-  const [selectedNewsletterType, setSelectedNewsletterType] = useState<string | null>(null);
+  const [selectedNewsletterType, setSelectedNewsletterType] = useState<string >('');
   const { allNewsletterTypes } = useNewsletterTypesStore();
 
 
@@ -57,7 +57,6 @@ export default function SubscribersPage() {
   ];
 
   useEffect(() => {
-    handleGetSubscribers()
     handleGetAllNewsletterTypes()
     setHeader(<div className="hidden lg:block">
       <div className="relative">
@@ -93,6 +92,11 @@ export default function SubscribersPage() {
   }, [])
 
 
+    useEffect(() => {
+    handleGetSubscribers(1, 25, selectedNewsletterType)
+  }, [selectedNewsletterType])
+
+
 
 
   const generateRows = () => {
@@ -124,7 +128,7 @@ export default function SubscribersPage() {
       />
 
       <Table data={generateRows()} columns={columns} paginate={subscribersPagination} setPageNo={(pageNo) => {
-        handleGetSubscribers(pageNo)
+        handleGetSubscribers(pageNo, 25, selectedNewsletterType);
       }} />
 
       {/* {totalPages > 1 && (

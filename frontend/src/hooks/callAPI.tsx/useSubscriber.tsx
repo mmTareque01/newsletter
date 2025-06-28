@@ -12,11 +12,12 @@ export function useSubscribers() {
   const { setSubscribers, setSubscribersPagination } = useSubscribersStore();
 
 
-  const handleGetSubscribers = async (pageNo: number = 1, pageSize: number = 10) => {
+  const handleGetSubscribers = async (pageNo: number = 1, pageSize: number = 10, newsletterTypeId: string = '') => {
     const subscribers = await callApi({
       endpoint: generateURL(Subscribers, {
         pageNo: pageNo,
         pageSize: pageSize,
+        newsletterTypeId: newsletterTypeId
       }),
       options: { method: "GET" },
 

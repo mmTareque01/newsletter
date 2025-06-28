@@ -22,6 +22,7 @@ interface URLParams {
   pageNo?: number;
   search?: string;
   sortBy?: string;
+  newsletterTypeId?: string ;
   sortOrder?: "asc" | "desc";
   [key: string]: string | number | boolean | undefined;
 }
