@@ -6,7 +6,62 @@ export const extendedPrisma = (prisma: PrismaClient) => {
     model: {
       $allModels: {
         // Pagination method
-        async paginate<T, A>(
+
+        async paginate<
+          T,
+          Args extends {
+            where?: any;
+            include?: any;
+            orderBy?: any;
+            select?: any;
+          } = any
+        >(
+          this: T,
+          options: {
+            pageNo?: number;
+            pageSize?: number;
+            where?: Args["where"];
+            include?: Args["include"];
+            orderBy?: Args["orderBy"];
+            select?: Args["select"];
+          } = {}
+        ) {
+          const context = this as any;
+          const {
+            pageNo = 1,
+            pageSize = 10,
+            where,
+            include,
+            orderBy = { createdAt: "desc" },
+            select,
+          } = options;
+
+          const skip = (pageNo - 1) * pageSize;
+
+          const findArgs: any = {
+            skip,
+            take: pageSize,
+            where: { deletedAt: null, ...where },
+            orderBy,
+          };
+
+          if (include) findArgs.include = include;
+          if (select) findArgs.select = select;
+
+          const [data, total] = await Promise.all([
+            context.findMany(findArgs),
+            context.count({ where: { deletedAt: null, ...where } }),
+          ]);
+
+          return {
+            data,
+            total,
+            pageNo,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+          };
+        },
+        async paginate_v1<T, A>(
           this: T,
           options: {
             pageNo?: number;
@@ -14,7 +69,7 @@ export const extendedPrisma = (prisma: PrismaClient) => {
             where?: any;
             include?: A extends { include?: infer I } ? I : never;
             orderBy?: A extends { orderBy?: infer O } ? O : never;
-                  // select?: A['select'];
+            // select?: A['select'];
           } = {}
         ) {
           const context = this as any;

@@ -11,12 +11,16 @@ import { generateURL } from "@/libs/generateURL";
 
 export function useNewsletter() {
   const { callApi } = useApi();
-  const { setNewsletterTypes, setNewsletterPagination } = useNewsletterTypesStore();
+  const { setNewsletterTypes, setNewsletterPagination, setAllNewsletterTypes } = useNewsletterTypesStore();
+
   const handleGetNewsletter = async (pageNo: number = 1, pageSize: number = 10) => {
-    const newsletterTypes = await callApi(generateURL(NewsletterTypes, {
-      pageNo: pageNo,
-      pageSize: pageSize
-    }), { method: "GET" });
+    const newsletterTypes = await callApi({
+      endpoint: generateURL(NewsletterTypes, {
+        pageNo: pageNo,
+        pageSize: pageSize
+      }),
+      options: { method: "GET" }
+    });
     if (newsletterTypes) {
       // console.log({newsletterTypes})
       setNewsletterTypes(newsletterTypes?.data || []);
@@ -24,8 +28,27 @@ export function useNewsletter() {
     }
   };
 
+  const handleGetAllNewsletterTypes = async () => {
+    const newsletterTypes = await callApi({
+      endpoint: generateURL(NewsletterTypes, {
+        pageNo: 1,
+        pageSize: 1000000,
+        query: 'id, title'
+      }),
+      options: { method: "GET" }
+    });
+    if (newsletterTypes) {
+      // console.log({newsletterTypes})
+      setAllNewsletterTypes(newsletterTypes?.data || []);
+      // setNewsletterPagination(newsletterTypes?.paginate || {});
+    }
+  };
+
   const handleCreateNewsletterType = async (data: NewsletterType) => {
-    const newsletterTypes = await callApi(NewsletterTypes, { method: "POST", data: data }, "New type created successfully");
+    const newsletterTypes = await callApi({
+      endpoint: NewsletterTypes,
+      options: { method: "POST", data: data }
+    });
     if (newsletterTypes) {
       // setNewsletterTypes(newsletterTypes?.data || []);
       handleGetNewsletter();
@@ -33,7 +56,11 @@ export function useNewsletter() {
   };
 
   const handleUpdateNewsletterType = async (id: string, data: NewsletterType) => {
-    const newsletterTypes = await callApi(`${NewsletterTypes}/${id}`, { method: "PUT", data }, "Type updated successfully");
+    const newsletterTypes = await callApi({
+      endpoint: `${NewsletterTypes}/${id}`,
+      options: { method: "PUT", data },
+      successMessage: "Type updated successfully"
+    });
     if (newsletterTypes) {
       // setNewsletterTypes(newsletterTypes?.data || []);
       handleGetNewsletter();
@@ -41,7 +68,11 @@ export function useNewsletter() {
   };
 
   const handleDeleteNewsletterType = async (id: string) => {
-    const newsletterTypes = await callApi(`${NewsletterTypes}/${id}`, { method: "DELETE" }, "Type deleted successfully");
+    const newsletterTypes = await callApi({
+      endpoint: `${NewsletterTypes}/${id}`,
+      options: { method: "DELETE" },
+      successMessage: "Type deleted successfully"
+    });
     if (newsletterTypes) {
       // setNewsletterTypes(newsletterTypes?.data || []);
       handleGetNewsletter();
@@ -52,8 +83,8 @@ export function useNewsletter() {
     handleGetNewsletter,
     handleCreateNewsletterType,
     handleDeleteNewsletterType,
-    handleUpdateNewsletterType
-    // handleUpdateSubscriber,
+    handleUpdateNewsletterType,
+    handleGetAllNewsletterTypes,
     // handleDeleteSubscriber,
   };
 }

@@ -1,12 +1,14 @@
 import { PaginationParams } from "@/types/pagination";
 import { create } from "zustand";
 
-export interface NewsletterType {
+export interface NewsletterTypeMain {
   id: string;
   title: string;
+  createdAt?: string;
+}
+export interface NewsletterType extends NewsletterTypeMain {
   description: string | null;
   key: string | null;
-  createdAt: string;
   updatedAt: string;
   deletedAt: string | null;
   status: string;
@@ -14,7 +16,9 @@ export interface NewsletterType {
 
 interface NewsletterTypesState {
   newsletterTypes: NewsletterType[];
+  allNewsletterTypes: NewsletterTypeMain[];
   setNewsletterTypes: (types: NewsletterType[]) => void;
+  setAllNewsletterTypes: (types: NewsletterTypeMain[]) => void;
   addNewsletterType: (type: NewsletterType) => void;
   removeNewsletterType: (id: string) => void;
   updateNewsletterType: (type: NewsletterType) => void;
@@ -27,9 +31,11 @@ interface NewsletterTypesState {
 export const useNewsletterTypesStore = create<NewsletterTypesState>(
   (set, get) => ({
     newsletterTypes: [],
+    allNewsletterTypes: [],
     newsletterPagination: {} as PaginationParams,
 
     setNewsletterTypes: (types) => set({ newsletterTypes: types }),
+    setAllNewsletterTypes: (types) => set({ allNewsletterTypes: types }),
 
     addNewsletterType: (type) =>
       set((state) => ({
@@ -52,6 +58,7 @@ export const useNewsletterTypesStore = create<NewsletterTypesState>(
       const state = get();
       return state.newsletterTypes.find((type) => type.id === id);
     },
-    setNewsletterPagination: (pagination) => set({ newsletterPagination: pagination }),
+    setNewsletterPagination: (pagination) =>
+      set({ newsletterPagination: pagination }),
   })
 );

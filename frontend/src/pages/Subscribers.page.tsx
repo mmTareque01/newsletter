@@ -1,12 +1,15 @@
 "use client";
 import { BlockIcon, DeleteIcon, UnsubscribeIcon } from "@/components/buttons/Icon.button";
+import Select from "@/components/Select";
 import { Table } from "@/components/table/index";
 import { Title } from "@/components/typography";
+import { useNewsletter } from "@/hooks/callAPI.tsx/useNewsletter";
 import { useSubscribers } from "@/hooks/callAPI.tsx/useSubscriber";
 import { formatTime } from "@/libs/timeConvertion";
 import { useAppStore } from "@/stores/app.store";
+import { useNewsletterTypesStore } from "@/stores/newsletterTypes.store";
 import { useSubscribersStore } from "@/stores/subscribers.store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function SubscribersPage() {
   // const [currentPage, setCurrentPage] = useState(1);
@@ -14,6 +17,10 @@ export default function SubscribersPage() {
   const { handleGetSubscribers, handleUpdateSubscriber, handleDeleteSubscriber } = useSubscribers()
   const { subscribers, subscribersPagination } = useSubscribersStore();
   const { setHeader } = useAppStore();
+  const { handleGetAllNewsletterTypes } = useNewsletter();
+  const [selectedNewsletterType, setSelectedNewsletterType] = useState<string | null>(null);
+  const { allNewsletterTypes } = useNewsletterTypesStore();
+
 
 
   // console.log({subscribers})
@@ -51,6 +58,7 @@ export default function SubscribersPage() {
 
   useEffect(() => {
     handleGetSubscribers()
+    handleGetAllNewsletterTypes()
     setHeader(<div className="hidden lg:block">
       <div className="relative">
         <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2">
@@ -105,7 +113,15 @@ export default function SubscribersPage() {
   return (
     <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg">
       {/* <h1 className="text-2xl font-bold text-black mb-6">Subscribers</h1> */}
-      <Title className="mb-4">Subscribers List</Title>
+
+
+      <Select
+        options={allNewsletterTypes.map(type => ({ id: type.id, label: type.title }))}
+        onSelect={(value) => setSelectedNewsletterType(value)}
+        label='Filter by Newsletter Type'
+        required
+        className="max-w-[250px]"
+      />
 
       <Table data={generateRows()} columns={columns} paginate={subscribersPagination} setPageNo={(pageNo) => {
         handleGetSubscribers(pageNo)

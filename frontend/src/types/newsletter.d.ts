@@ -4,3 +4,4 @@ export interface NewsletterType {
   description: string;
   createdAt?: string;
 }
+

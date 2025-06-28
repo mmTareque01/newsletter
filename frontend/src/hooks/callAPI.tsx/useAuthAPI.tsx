@@ -13,7 +13,10 @@ export function useAuthApi() {
   const { setRefreshToken } = useAppStore();
 
   const handleLogout = async () => {
-    const logout = await callApi(Logout, { method: "POST" });
+    const logout = await callApi({
+      endpoint: Logout,
+      options: { method: "POST" }
+    });
     if (logout) {
       router.push("/signin");
     }
@@ -21,12 +24,15 @@ export function useAuthApi() {
 
   const handleLogin = async (data: SignInFormValues) => {
     try {
-      const authData = await callApi(Login, {
+      const authData = await callApi({
+        endpoint:Login,
+        options:  {
         method: "POST",
         data: data,
         headers: {
           "Content-Type": "application/json",
         },
+      }
       });
 
       if (authData?.data) {
@@ -44,11 +50,14 @@ export function useAuthApi() {
 
   const handleRegister = async (data: SignUpFormValues) => {
     try {
-      const authData = await callApi(Register, {
-        method: "POST",
-        data: data,
-        headers: {
-          "Content-Type": "application/json",
+      const authData = await callApi({
+        endpoint: Register,
+        options: {
+          method: "POST",
+          data: data,
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
       });
 

@@ -1,5 +1,5 @@
 import { NewsletterType } from "./newsletter";
-import { SubscriberType } from "./subscribers";
+import { BulkSubscriberType, SubscriberType } from "./subscribers";
 
 // lib/api/types.ts
 export interface ApiResponse<T> {
@@ -20,12 +20,16 @@ export interface APIErrorResponse {
 export interface ApiRequestOptions {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
-  data?: {
-    email?: string;
-    password?: string;
-    firstName?: string;
-    lastName?: string;
-  } | NewsletterType | SubscriberType;
+  data?:
+    | {
+        email?: string;
+        password?: string;
+        firstName?: string;
+        lastName?: string;
+      }
+    | NewsletterType
+    | SubscriberType
+    | BulkSubscriberType;
   params?: {
     pageNumber: number;
     pageSize: number;

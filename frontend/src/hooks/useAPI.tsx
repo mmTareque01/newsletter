@@ -12,18 +12,31 @@ export function useApi() {
   const { startLoading, stopLoading, setError, clearError } = useApiStore();
   const { refreshToken, setRefreshToken } = useAppStore();
 
+
   const callApi = async <T,>(
-    endpoint: string,
-    options?: ApiRequestOptions,
-    successMessage?: string,
-    stopLoader?: boolean
+    {
+      endpoint,
+      options = {},
+      successMessage = "",
+      stopLoader = false,
+      uploadFile = false
+     }: {
+      endpoint: string,
+      options?: ApiRequestOptions,
+      successMessage?: string,
+      stopLoader?: boolean,
+      uploadFile?: boolean
+    }
   ): Promise<T | null> => {
     startLoading();
     clearError(endpoint);
 
     try {
       const response = await apiClient<T>(endpoint, {
-        headers: {
+        headers: uploadFile ? {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${refreshToken}`
+        } : {
           "Content-Type": "application/json",
           Accept: "application/json",
           Authorization: `Bearer ${refreshToken}`, // optional
@@ -38,10 +51,10 @@ export function useApi() {
       }
 
       const newToken =
-        response?.headers?.["authorization"] 
-        // ||
-        // console.log({newToken})
-        // response.headers?.["Authorization"];
+        response?.headers?.["authorization"]
+      // ||
+      // console.log({newToken})
+      // response.headers?.["Authorization"];
       if (newToken?.startsWith("Bearer ")) {
         const token = newToken.split(" ")[1];
         setRefreshToken(token); // Update the store
@@ -71,5 +84,8 @@ export function useApi() {
     }
   };
 
+
+
   return { callApi };
 }
+
