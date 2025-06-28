@@ -1,14 +1,21 @@
 "use client";
 
+import Select from "@/components/Select";
 import { Text, Title } from "@/components/typography";
+import { useNewsletter } from "@/hooks/callAPI.tsx/useNewsletter";
 import { useAppStore } from "@/stores/app.store";
+import { useNewsletterTypesStore } from "@/stores/newsletterTypes.store";
 import { useEffect, useState } from "react";
 
 export default function EmailComposeForm() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const {setHeader} = useAppStore();
+  const { setHeader } = useAppStore();
+
+    const { handleGetAllNewsletterTypes } = useNewsletter();
+    const [selectedNewsletterType, setSelectedNewsletterType] = useState<string >('');
+    const { allNewsletterTypes } = useNewsletterTypesStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,15 +31,26 @@ export default function EmailComposeForm() {
   };
 
 
-  useEffect(()=>{
+  useEffect(() => {
     setHeader(<Title>Send Newsletter</Title>);
-  },[])
+    handleGetAllNewsletterTypes();
+  }, [])
 
   return (
     <div className="container mx-auto bg-white p-6 shadow-md rounded-lg">
       {/* <Title>{"Send Newsletter"}</Title> */}
       <form onSubmit={handleSubmit} className="space-y-4 text-gray-700">
         <div>
+
+          <Select
+            options={allNewsletterTypes.map(type => ({ id: type.id, label: type.title }))}
+            onSelect={(value) => setSelectedNewsletterType(value)}
+            label='Select Newsletter Type'
+            required
+            className="max-w-[250px]"
+          />
+
+
           <label className="block mb-1 font-medium"><Text>Subject</Text></label>
           <input
             type="text"

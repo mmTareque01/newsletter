@@ -1,11 +1,10 @@
 import { Router } from "express";
-// import typeRouter from "./newsletterType";
+import { sendNewsletter } from "./controllers/sendNewsletter.controller";
+import { validate } from "../../middleware/validation";
+import { campaignInput } from "./validation/newsletter.validation";
 
+const newsletterRouter = Router();
 
-const newsletterRouter = Router()
+newsletterRouter.post("/", validate(campaignInput),sendNewsletter);
 
-
-// newsletterRouter.use('/type', typeRouter)
-
-
-export default newsletterRouter
+export default newsletterRouter;
