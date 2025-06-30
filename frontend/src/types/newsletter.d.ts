@@ -5,3 +5,9 @@ export interface NewsletterType {
   createdAt?: string;
 }
 
+
+export interface Campaign {
+  subject:string;
+  message: string;
+  newsletterTypeId: string;
+}

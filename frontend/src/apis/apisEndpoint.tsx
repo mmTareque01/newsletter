@@ -10,3 +10,4 @@ export const Subscribers = '/subscriber'
 
 // newsletters
 export const NewsletterTypes = '/newsletter/type'
+export const Newsletter = '/newsletter'

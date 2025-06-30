@@ -3,6 +3,7 @@
 import Select from "@/components/Select";
 import { Text, Title } from "@/components/typography";
 import { useNewsletter } from "@/hooks/callAPI.tsx/useNewsletter";
+import { useNewsletterType } from "@/hooks/callAPI.tsx/useNewsletterType";
 import { useAppStore } from "@/stores/app.store";
 import { useNewsletterTypesStore } from "@/stores/newsletterTypes.store";
 import { useEffect, useState } from "react";
@@ -12,19 +13,21 @@ export default function EmailComposeForm() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const { setHeader } = useAppStore();
+  const { handleSendNewsletter } = useNewsletter();
 
-    const { handleGetAllNewsletterTypes } = useNewsletter();
-    const [selectedNewsletterType, setSelectedNewsletterType] = useState<string >('');
-    const { allNewsletterTypes } = useNewsletterTypesStore();
+  const { handleGetAllNewsletterTypes } = useNewsletterType();
+  const [selectedNewsletterType, setSelectedNewsletterType] = useState<string>('');
+  const { allNewsletterTypes } = useNewsletterTypesStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    await handleSendNewsletter({
+      subject,
+      message,
+      newsletterTypeId: selectedNewsletterType
+    })
 
-    // Replace this with actual API call
-    await new Promise((r) => setTimeout(r, 1000));
-
-    alert(`Newsletter sent!\nSubject: ${subject}\nMessage: ${message}`);
     setLoading(false);
     setSubject("");
     setMessage("");

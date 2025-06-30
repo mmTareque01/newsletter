@@ -3,7 +3,7 @@ import { BlockIcon, DeleteIcon, UnsubscribeIcon } from "@/components/buttons/Ico
 import Select from "@/components/Select";
 import { Table } from "@/components/table/index";
 import { Title } from "@/components/typography";
-import { useNewsletter } from "@/hooks/callAPI.tsx/useNewsletter";
+import { useNewsletterType } from "@/hooks/callAPI.tsx/useNewsletterType";
 import { useSubscribers } from "@/hooks/callAPI.tsx/useSubscriber";
 import { formatTime } from "@/libs/timeConvertion";
 import { useAppStore } from "@/stores/app.store";
@@ -17,7 +17,7 @@ export default function SubscribersPage() {
   const { handleGetSubscribers, handleUpdateSubscriber, handleDeleteSubscriber } = useSubscribers()
   const { subscribers, subscribersPagination } = useSubscribersStore();
   const { setHeader } = useAppStore();
-  const { handleGetAllNewsletterTypes } = useNewsletter();
+  const { handleGetAllNewsletterTypes } = useNewsletterType();
   const [selectedNewsletterType, setSelectedNewsletterType] = useState<string >('');
   const { allNewsletterTypes } = useNewsletterTypesStore();
 

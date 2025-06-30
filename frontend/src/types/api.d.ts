@@ -1,4 +1,4 @@
-import { NewsletterType } from "./newsletter";
+import { Campaign, NewsletterType } from "./newsletter";
 import { BulkSubscriberType, SubscriberType } from "./subscribers";
 
 // lib/api/types.ts
@@ -29,7 +29,8 @@ export interface ApiRequestOptions {
       }
     | NewsletterType
     | SubscriberType
-    | BulkSubscriberType;
+    | BulkSubscriberType
+    | Campaign;
   params?: {
     pageNumber: number;
     pageSize: number;

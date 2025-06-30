@@ -8,7 +8,7 @@ import { NewsletterTypeFields } from "@/constants/newsletter";
 import { useState, useEffect } from "react";
 import { RxCross2 } from "react-icons/rx";
 import Modal from "@/components/modals";
-import { useNewsletter } from "@/hooks/callAPI.tsx/useNewsletter";
+import { useNewsletterType } from "@/hooks/callAPI.tsx/useNewsletterType";
 import { useNewsletterTypesStore } from "@/stores/newsletterTypes.store";
 import { NewsletterType } from "@/types/newsletter";
 import { DeleteIcon } from "@/components/buttons/Icon.button";
@@ -17,7 +17,7 @@ import { formatTime } from "@/libs/timeConvertion";
 import { useAppStore } from "@/stores/app.store";
 
 export default function NewsletterTypePage() {
-  const { handleGetNewsletter, handleCreateNewsletterType, handleDeleteNewsletterType, handleUpdateNewsletterType } = useNewsletter();
+  const { handleGetNewsletter, handleCreateNewsletterType, handleDeleteNewsletterType, handleUpdateNewsletterType } = useNewsletterType();
   const { newsletterTypes, newsletterPagination, setNewsletterPagination } = useNewsletterTypesStore();
   const { setHeader } = useAppStore();
 
