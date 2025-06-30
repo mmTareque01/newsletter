@@ -5,6 +5,7 @@ import Input from "./Input";
 import Button from "./Button";
 import { Modal } from "./modal";
 import Image from "next/image";
+import OwnerImage from "@/assets/images/user/owner.jpg";
 
 
 export default function UserMetaCard() {
@@ -19,7 +20,7 @@ export default function UserMetaCard() {
         <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex flex-col items-center w-full gap-6 xl:flex-row">
             <div className="w-20 h-20 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-              <Image src="/images/user/owner.jpg" alt="user" />
+              <Image src={OwnerImage} alt="user" />
             </div>
             <div className="order-3 xl:order-2">
               <h4 className="mb-2 text-lg font-semibold text-center text-gray-800 dark:text-white/90 xl:text-left">
