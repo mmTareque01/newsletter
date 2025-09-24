@@ -18,15 +18,15 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen xl:flex bg-[#F9FAFB]">
+    <div className="flex bg-[#F9FAFB]">
       <div>
         <AppSidebar />
         <Backdrop />
       </div>
 
-      <div
-        className={`flex-1 lg:ml-[290px] transition-all duration-300 ease-in-out`}
-      >
+        <div className="flex-1 transition-all duration-[1000] ease-in-out ">
+
+       
         <AppHeader />
         <div className="p-4 mx-auto max-w-screen-2xl md:p-6 bg-[#F9FAFB]">
           {children}

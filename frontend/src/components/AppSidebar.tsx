@@ -20,9 +20,8 @@ const AppSidebar = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white 0 text-gray-900  h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
-        
-        lg:translate-x-0`}
+     className={`flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white 0 text-gray-900  h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+lg:translate-x-0`}
       // onMouseEnter={() => !expandedSidebar && setIsHovered(true)}
       // onMouseLeave={() => setIsHovered(false)}
     >

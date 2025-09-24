@@ -1,6 +1,7 @@
 "use client";
 // import DemographicCard from "@/components/dashboard/DemographicCard";
 import EcommerceMetrics from "@/components/dashboard/EcommerceMetrics";
+import MonthlySalesChart from "@/components/dashboard/MonthlySalesChart";
 import { Title } from "@/components/typography";
 // import MonthlySalesChart from "@/components/dashboard/MonthlySalesChart";
 // import MonthlyTarget from "@/components/dashboard/MonthlyTarget";
@@ -26,7 +27,7 @@ export default function Dashboard() {
         <div className="col-span-12 space-y-6 xl:col-span-7">
           <EcommerceMetrics />
 
-          {/* <MonthlySalesChart /> */}
+          <MonthlySalesChart />
         </div>
 
         <div className="col-span-12 xl:col-span-5">
