@@ -11,21 +11,18 @@ import NotificationDropdown from "./NotificationDropdown";
 import UserDropdown from "./UserDropdown";
 import { useAppSettings } from "@/stores/app-settings-store";
 import { useAppStore } from "@/stores/app.store";
+import { useUser } from "@/hooks/callAPI.tsx/useUser";
 
 const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
   const { toggleSidebar } = useAppSettings();
   const { header } = useAppStore();
+  const { handleGetUserInfo } = useUser();
   // const { isMobileOpen } = useSidebar();
   const inputRef = useRef<HTMLInputElement>(null);
   const isMobileOpen = false;
 
   const handleToggle = () => {
-    // if (window.innerWidth >= 1024) {
-    //   toggleSidebar();
-    // } else {
-    //   toggleMobileSidebar();
-    // }
 
     toggleSidebar();
   };
@@ -33,6 +30,10 @@ const AppHeader = () => {
   const toggleApplicationMenu = () => {
     setApplicationMenuOpen(!isApplicationMenuOpen);
   };
+
+  useEffect(() => {
+    handleGetUserInfo()
+  }, [])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

@@ -5,6 +5,7 @@ import { useAppStore } from "@/stores/app.store";
 import { useEffect, useState } from "react";
 
 export default function EmailComposeForm() {
+    const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,8 +40,8 @@ export default function EmailComposeForm() {
           <input
             type="email"
             className="w-full border px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>

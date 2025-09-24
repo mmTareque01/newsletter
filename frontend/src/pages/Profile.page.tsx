@@ -6,10 +6,12 @@ import UserInfoCard from "@/components/UserInfoCard";
 import UserMetaCard from "@/components/UserMetaCard";
 import PageMeta from "@/others/PageMeta";
 import { useAppStore } from "@/stores/app.store";
+import { useUserStore } from "@/stores/user.store";
 import { useEffect } from "react";
 
 export default function UserProfiles() {
 const { setHeader } = useAppStore();
+const {userInfo} = useUserStore();
 
   useEffect(()=>{
     setHeader(
@@ -27,9 +29,9 @@ const { setHeader } = useAppStore();
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
    
         <div className="space-y-6">
-          <UserMetaCard />
-          <UserInfoCard />
-          <UserAddressCard />
+          <UserMetaCard data={{firstName:userInfo.firstName, lastName:userInfo.lastName, bio:userInfo.bio, social: userInfo.social}}/>
+          <UserInfoCard data={userInfo}/>
+          <UserAddressCard data={userInfo.address}/>
         </div>
       </div>
     </>

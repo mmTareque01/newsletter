@@ -1,3 +1,4 @@
+import { User } from "@/stores/user.store";
 import { Campaign, NewsletterType } from "./newsletter";
 import { BulkSubscriberType, SubscriberType } from "./subscribers";
 
@@ -30,7 +31,8 @@ export interface ApiRequestOptions {
     | NewsletterType
     | SubscriberType
     | BulkSubscriberType
-    | Campaign;
+    | Campaign
+    | User;
   params?: {
     pageNumber: number;
     pageSize: number;

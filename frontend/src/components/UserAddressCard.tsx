@@ -4,11 +4,33 @@ import Label from "./Label";
 import Input from "./Input";
 import Button from "./Button";
 import { Modal } from "./modal";
+import { useState } from "react";
+import { useUser } from "@/hooks/callAPI.tsx/useUser";
+import { User } from "@/stores/user.store";
 
-export default function UserAddressCard() {
+interface AddressInterface {
+  street?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+}
+export default function UserAddressCard({ data }: { data: AddressInterface }) {
   const { isOpen, openModal, closeModal } = useModal();
+  const { handleUpdatetUserInfo } = useUser();
+
+  const [form, setForm] = useState<AddressInterface>({
+    street: data?.street || "",
+    city: data?.city || "",
+    state: data?.state || "",
+    zipCode: data?.zipCode || "",
+    country: data?.country || "",
+  });
+
+
   const handleSave = () => {
     // Handle save logic here
+    handleUpdatetUserInfo({ address: form } as User);
     console.log("Saving changes...");
     closeModal();
   };
@@ -27,34 +49,45 @@ export default function UserAddressCard() {
                   Country
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  United States.
+                  {form.country || data?.country}
                 </p>
               </div>
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  City/State
+                  State
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  Phoenix, Arizona, United States.
+                  {form.state || data?.state}
                 </p>
               </div>
+
+              <div>
+                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                  City
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  {form.city || data?.city}
+                </p>
+              </div>
+
+
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
                   Postal Code
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  ERT 2489
+                  {form.zipCode || data?.zipCode}
                 </p>
               </div>
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  TAX ID
+                  street
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  AS4568384
+                  {form.street || data?.street}
                 </p>
               </div>
             </div>
@@ -98,22 +131,33 @@ export default function UserAddressCard() {
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div>
                   <Label>Country</Label>
-                  <Input type="text" value="United States" />
+                  <Input type="text" value={form.country || data?.country}
+                    onChange={(e) => setForm({ ...form, country: e.target.value })}
+                  />
                 </div>
 
                 <div>
-                  <Label>City/State</Label>
-                  <Input type="text" value="Arizona, United States." />
+                  <Label>State</Label>
+                  <Input type="text" value={form.state || data?.state}
+                    onChange={(e) => setForm({ ...form, state: e.target.value })}
+                  />
+                </div>
+
+                <div>
+                  <Label>City</Label>
+                  <Input type="text" value={form.city || data?.city}
+                    onChange={(e) => setForm({ ...form, city: e.target.value })}
+                  />
                 </div>
 
                 <div>
                   <Label>Postal Code</Label>
-                  <Input type="text" value="ERT 2489" />
+                  <Input type="text" value={form.zipCode || data?.zipCode} onChange={(e) => setForm({ ...form, zipCode: e.target.value })} />
                 </div>
 
                 <div>
-                  <Label>TAX ID</Label>
-                  <Input type="text" value="AS4568384" />
+                  <Label>Street</Label>
+                  <Input type="text" value={form.street || data?.street} onChange={(e) => setForm({ ...form, street: e.target.value })} />
                 </div>
               </div>
             </div>

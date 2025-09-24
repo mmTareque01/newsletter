@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { response } from "../../../response-config/response";
-import { createUserRepo } from "../repository/create.user.repository";
+import { createUserRepo } from "../repository/info.user.repository";
 import { hashPassword } from "../../../libs/hash";
 import { loginRepo } from "../repository/login.user.repository";
 

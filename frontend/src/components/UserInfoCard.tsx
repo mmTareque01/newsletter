@@ -5,12 +5,40 @@ import { Modal } from "./modal";
 import Label from "./Label";
 import Input from "./Input";
 import Button from "./Button";
+import { User } from "@/stores/user.store";
+import { userInfo } from "os";
+import { useState } from "react";
+import { useUser } from "@/hooks/callAPI.tsx/useUser";
 
-export default function UserInfoCard() {
+export default function UserInfoCard({ data }: { data: User }) {
   const { isOpen, openModal, closeModal } = useModal();
+  const { handleUpdatetUserInfo } = useUser()
+  const [form, setForm] = useState<{
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    bio: string;
+    social: { facebook?: string; x?: string; linkedin?: string; instagram?: string }
+  }>({
+    firstName: data.firstName || "",
+    lastName: data.lastName || "",
+    email: data.email || "",
+    phone: data.phone || "",
+    bio: data.bio || "",
+    social: {
+      facebook: data.social?.facebook ,
+      x: data.social?.x ,
+      linkedin: data.social?.linkedin ,
+      instagram: data.social?.instagram ,
+    }
+  });
+
+
   const handleSave = () => {
     // Handle save logic here
     // console.log("Saving changes...");
+    handleUpdatetUserInfo(form as User);
     closeModal();
   };
   return (
@@ -27,7 +55,7 @@ export default function UserInfoCard() {
                 First Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Muhimenul
+                {data.firstName}
               </p>
             </div>
 
@@ -36,7 +64,7 @@ export default function UserInfoCard() {
                 Last Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Tareque
+                {data.lastName}
               </p>
             </div>
 
@@ -45,7 +73,7 @@ export default function UserInfoCard() {
                 Email address
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Tareque@newsletter.com
+                {data.email}
               </p>
             </div>
 
@@ -54,7 +82,7 @@ export default function UserInfoCard() {
                 Phone
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                +09 363 398 46
+                {data.phone}
               </p>
             </div>
 
@@ -63,7 +91,7 @@ export default function UserInfoCard() {
                 Bio
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                Team Manager
+                {data.bio}
               </p>
             </div>
           </div>
@@ -104,39 +132,6 @@ export default function UserInfoCard() {
           </div>
           <form className="flex flex-col">
             <div className="custom-scrollbar h-[450px] overflow-y-auto px-2 pb-3">
-              <div>
-                <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
-                  Social Links
-                </h5>
-
-                <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
-                  <div>
-                    <Label>Facebook</Label>
-                    <Input
-                      type="text"
-                      value="https://www.facebook.com/mm.tareque"
-                    />
-                  </div>
-
-                  <div>
-                    <Label>X.com</Label>
-                    <Input type="text" value="https://x.com" />
-                  </div>
-
-                  <div>
-                    <Label>Linkedin</Label>
-                    <Input
-                      type="text"
-                      value="https://www.linkedin.com/in/mmtareque/"
-                    />
-                  </div>
-
-                  <div>
-                    <Label>Instagram</Label>
-                    <Input type="text" value="https://instagram.com" />
-                  </div>
-                </div>
-              </div>
               <div className="mt-7">
                 <h5 className="mb-5 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
                   Personal Information
@@ -145,27 +140,77 @@ export default function UserInfoCard() {
                 <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                   <div className="col-span-2 lg:col-span-1">
                     <Label>First Name</Label>
-                    <Input type="text" value="Muhimenul" />
+                    <Input type="text" value={form.firstName || data.firstName || ''}
+                      onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                    />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
                     <Label>Last Name</Label>
-                    <Input type="text" value="Tareque" />
+                    <Input type="text" value={form.lastName || data.lastName || ''}
+                      onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                    />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
                     <Label>Email Address</Label>
-                    <Input type="text" value="Tareque@newsletter.com" />
+                    <Input type="text" value={form.email || data.email || ''}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    />
                   </div>
 
                   <div className="col-span-2 lg:col-span-1">
                     <Label>Phone</Label>
-                    <Input type="text" value="+09 363 398 46" />
+                    <Input type="text" value={form.phone || data.phone || ''}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    />
                   </div>
 
                   <div className="col-span-2">
                     <Label>Bio</Label>
-                    <Input type="text" value="Team Manager" />
+                    <Input type="text" value={form.bio || data.bio || ''}
+                      onChange={(e) => setForm({ ...form, bio: e.target.value })}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h5 className="mt-7 text-lg font-medium text-gray-800 dark:text-white/90 lg:mb-6">
+                  Social Links
+                </h5>
+
+                <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
+                  <div>
+                    <Label>Facebook</Label>
+                    <Input
+                      type="text"
+                      value={form.social.facebook || data.social?.facebook}
+                      onChange={(e) => setForm({ ...form, social: { ...form.social, facebook: e.target.value } })}
+                    />
+                  </div>
+
+                  <div>
+                    <Label>X.com</Label>
+                    <Input type="text" value={form.social.x || data.social?.x}  
+                       onChange={(e) => setForm({ ...form, social: { ...form.social, x: e.target.value } })}
+                    />
+                  </div>
+
+                  <div>
+                    <Label>Linkedin</Label>
+                    <Input
+                      type="text"
+                      value={form.social.linkedin || data.social?.linkedin}
+                      onChange={(e) => setForm({ ...form, social: { ...form.social, linkedin: e.target.value } })}
+                    />
+                  </div>
+
+                  <div>
+                    <Label>Instagram</Label>
+                    <Input type="text" value={form.social.instagram || data.social?.instagram} 
+                       onChange={(e) => setForm({ ...form, social: { ...form.social, instagram: e.target.value } })}
+                    />
                   </div>
                 </div>
               </div>
