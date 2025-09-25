@@ -1,33 +1,43 @@
 "use client";
 
 import { Text, Title } from "@/components/typography";
+import { useMailer } from "@/hooks/callAPI.tsx/useMailer";
 import { useAppStore } from "@/stores/app.store";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
+import TinyEditor from "@/components/TinyEditor";
 
 export default function EmailComposeForm() {
-    const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const {setHeader} = useAppStore();
+  const { setHeader } = useAppStore();
+  const { handleSendMail } = useMailer();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
+
+    await handleSendMail({
+      to: email,
+      subject: subject,
+      body: message
+    });
 
     // Replace this with actual API call
     await new Promise((r) => setTimeout(r, 1000));
 
-    alert(`Newsletter sent!\nSubject: ${subject}\nMessage: ${message}`);
-    setLoading(false);
+    // alert(`Newsletter sent!\nSubject: ${subject}\nMessage: ${message}`);
+    // setLoading(false);
     setSubject("");
     setMessage("");
+    setEmail('')
   };
 
 
-  useEffect(()=>{
+  useEffect(() => {
     setHeader(<Title>Invite to Subscribe</Title>);
-  },[])
+  }, [])
 
   return (
     <div className="container mx-auto bg-white p-6 shadow-md rounded-lg">
@@ -60,12 +70,10 @@ export default function EmailComposeForm() {
 
         <div>
           <label className="block mb-1 font-medium">Message</label>
-          <textarea
-            className="w-full border px-4 py-2 rounded-md min-h-[150px] focus:outline-none focus:ring focus:ring-blue-300"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            required
-          />
+
+
+
+           <TinyEditor value={message} onChange={setMessage} />
         </div>
 
         <button

@@ -1,5 +1,5 @@
 import { User } from "@/stores/user.store";
-import { Campaign, NewsletterType } from "./newsletter";
+import { Campaign, NewsletterType, SendMailPayload } from "./newsletter";
 import { BulkSubscriberType, SubscriberType } from "./subscribers";
 
 // lib/api/types.ts
@@ -32,7 +32,7 @@ export interface ApiRequestOptions {
     | SubscriberType
     | BulkSubscriberType
     | Campaign
-    | User;
+    | User | SendMailPayload;
   params?: {
     pageNumber: number;
     pageSize: number;

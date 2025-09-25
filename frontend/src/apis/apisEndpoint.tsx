@@ -15,6 +15,8 @@ const Newsletter = '/newsletter'
 // user
 const User = '/user'
 
+const Mailer = '/mail'
 
 
-export { Login, Register, Logout, Subscribers, NewsletterTypes, Newsletter, User };
+
+export { Login, Register, Logout, Subscribers, NewsletterTypes, Newsletter, User, Mailer };

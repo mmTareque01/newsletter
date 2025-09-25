@@ -4,6 +4,7 @@ import auth from "./auth";
 import newsletterRouter from "./newsletter";
 import typeRouter from "./newsletterType";
 import userRouter from "./user";
+import mailRouter from "./mailer";
 import subscriber, { publicSubscribe } from "./subscriber";
 import express from "express";
 
@@ -15,4 +16,5 @@ service.use("/newsletter/subscribe", apiKeyAuth, publicSubscribe);
 service.use("/newsletter", authenticate, newsletterRouter);
 service.use("/newsletter/type", authenticate, typeRouter);
 service.use("/user", authenticate, userRouter);
+service.use("/mail", authenticate, mailRouter);
 export default service;

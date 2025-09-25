@@ -11,3 +11,9 @@ export interface Campaign {
   message: string;
   newsletterTypeId: string;
 }
+
+export interface SendMailPayload {
+  to: string;
+  subject: string;
+  body: string;
+}
