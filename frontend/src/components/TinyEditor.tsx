@@ -25,7 +25,6 @@ export default function TinyEditor({ value, onChange }: Props) {
     <Editor
       apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
       onInit={(_, editor) => (editorRef.current = editor)}
-      // ❌ Do NOT pass `initialValue={value}` here anymore
       init={{
         height: 400,
         menubar: false,
@@ -38,7 +37,7 @@ export default function TinyEditor({ value, onChange }: Props) {
           "undo redo | formatselect | bold italic backcolor | \
           alignleft aligncenter alignright alignjustify | \
           bullist numlist outdent indent | removeformat | help",
-        placeholder: "Start writing your content..."
+        placeholder: "Start writing your message..."
       }}
       onEditorChange={(content) => onChange(content)}
     />

@@ -26,6 +26,12 @@ enum NewsletterTypeStatus {
   INACTIVE
 }
 
+enum DeliveryStatus {
+  SENT
+  FAILED
+  PENDING
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -48,12 +54,29 @@ model User {
   deletedAt DateTime? // Soft delete field
 
   // 1:1 relation with SocialMedia
-  socialMedia SocialMedia?
-  address     Address?
+  address Address?
 
   // 1:M relation with Subscriber
-  subscriber     Subscriber[]
-  newsletterType NewsletterType[]
+  subscriber      Subscriber[]
+  newsletterType  NewsletterType[]
+  invitationEmail InvitationEmail[]
+  emailSettings   EmailSettings?
+}
+
+model EmailSettings {
+  id               String   @id @default(uuid()) @db.Uuid
+  smtpHost        String
+  smtpPort        Int
+  smtpUser        String
+  smtpPassword    String
+  fromEmail       String
+  fromName        String?
+  useTLS          Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique @db.Uuid // Critical for 1:1
 }
 
 model Address {
@@ -71,19 +94,22 @@ model Address {
   userId String @unique @db.Uuid // Critical for 1:1
 }
 
-model SocialMedia {
-  id String @id @default(uuid()) @db.Uuid
+model InvitationEmail {
+  id      String         @id @default(uuid()) @db.Uuid
+  to      String
+  subject String
+  body    String
+  status  DeliveryStatus // e.g., "sent", "failed", "pending"
+  error   String? // Store error message if sending failed
+  isSeen Boolean  @default(false) // Track if the email has been seen
+  newsletterType NewsletterType? @relation(fields: [newsletterTypeId], references: [id], onDelete: Cascade)
+  newsletterTypeId String? @db.Uuid // Critical for 1:1
 
-  facebook  String?
-  twitter   String?
-  instagram String?
-  linkedin  String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime? // Soft delete field
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique @db.Uuid // Critical for 1:1
+  userId String @unique @db.Uuid
 }
 
 model Subscriber {
@@ -118,4 +144,5 @@ model NewsletterType {
   userId String? @db.Uuid // Critical for 1:1
 
   subscribers Subscriber[]
+  invitationEmails InvitationEmail[]
 }

@@ -1,6 +1,7 @@
 
 import { ReactNode } from "react";
 import { FaRegUser } from "react-icons/fa";
+import { FaGear } from "react-icons/fa6";
 import { FiPieChart } from "react-icons/fi";
 import { IoMailOutline } from "react-icons/io5";
 import { LuLayoutDashboard, LuMails, LuPlug } from "react-icons/lu";
@@ -71,14 +72,15 @@ export const adminNavItems: NavItem[] = [
   //   icon: <LuTableCellsSplit />, // <TableIcon />,
   //   subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
   // },
-  // {
-  //   name: "Pages",
-  //   icon: <FaRegCopy />, // <PageIcon />,
-  //   subItems: [
-  //     { name: "Blank Page", path: "/blank", pro: false },
-  //     { name: "404 Error", path: "/error-404", pro: false },
-  //   ],
-  // },
+  {
+    name: "Settings",
+    icon: <FaGear />, // <PageIcon />,
+    subItems: [
+      { name: "SMTP", path: "/dashboard/settings/smtp", },
+      { name: "User", path: "/dashboard/settings/user", },
+      // { name: "404 Error", path: "/error-404", pro: false },
+    ],
+  },
 ];
 
 export const adminOthersItems: NavItem[] = [
